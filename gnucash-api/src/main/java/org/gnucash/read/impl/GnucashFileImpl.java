@@ -40,6 +40,7 @@ import org.gnucash.generated.Price;
 import org.gnucash.messages.ApplicationMessages;
 import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
+import org.gnucash.read.GnucashBudget;
 import org.gnucash.read.GnucashCustomer;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashGenerInvoice;
@@ -72,7 +73,8 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 
 /**
- * Implementation of GnucashFile that can only read but not modify Gnucash-Files. <br/>
+ * Implementation of GnucashFile that can only read but not modify
+ * Gnucash-Files. <br/>
  * 
  * @see GnucashFile
  */
@@ -80,6 +82,7 @@ public class GnucashFileImpl implements GnucashFile {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(GnucashFileImpl.class);
   private ApplicationMessages bundle = ApplicationMessages.getInstance();
+  protected Map<String, GnucashBudget> budgetID2budget;
 
   /**
    * my CurrencyTable.
@@ -92,7 +95,8 @@ public class GnucashFileImpl implements GnucashFile {
 
   /**
    * @param pFile the file to load and initialize from
-   * @throws IOException on low level reading-errors (FileNotFoundException if not found)
+   * @throws IOException on low level reading-errors (FileNotFoundException if not
+   *                     found)
    * @see #loadFile(File)
    */
   public GnucashFileImpl(final File pFile) throws IOException {
@@ -102,7 +106,8 @@ public class GnucashFileImpl implements GnucashFile {
 
   /**
    * @param pFile the file to load and initialize from
-   * @throws IOException on low level reading-errors (FileNotFoundException if not found)
+   * @throws IOException on low level reading-errors (FileNotFoundException if not
+   *                     found)
    * @see #loadFile(File)
    */
   public GnucashFileImpl(final InputStream is) throws IOException {
@@ -116,6 +121,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @return Returns the currencyTable.
    * @link #currencyTable
    */
+  @Override
   public ComplexCurrencyTable getCurrencyTable() {
     return currencyTable;
   }
@@ -123,6 +129,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @return a read-only collection of all accounts
    */
+  @Override
   public Collection<GnucashAccount> getAccounts() {
     if (accountID2account == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -144,6 +151,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @param id ID of a tax table
    * @return the identified tax table or null
    */
+  @Override
   public GCshTaxTable getTaxTableByID(final String id) {
     if (taxTablesById == null) {
       getTaxTables();
@@ -156,6 +164,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @param name Name of a tax table
    * @return the identified tax table or null
    */
+  @Override
   public GCshTaxTable getTaxTableByName(final String name) {
     if (taxTablesById == null) {
       getTaxTables();
@@ -174,6 +183,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @return all TaxTables defined in the book
    * @link GnucashTaxTable
    */
+  @Override
   public Collection<GCshTaxTable> getTaxTables() {
     if (taxTablesById == null) {
       taxTablesById = new HashMap<String, GCshTaxTable>();
@@ -248,6 +258,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @param id ID of a bill terms item
    * @return the identified bill terms item or null
    */
+  @Override
   public GCshBillTerms getBillTermsByID(final String id) {
     if (billTermsByID == null) {
       getBillTerms();
@@ -260,6 +271,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @param name Name of a bill terms item
    * @return the identified bill-terms item or null
    */
+  @Override
   public GCshBillTerms getBillTermsByName(final String name) {
     if (billTermsByID == null) {
       getBillTerms();
@@ -278,6 +290,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @return all TaxTables defined in the book
    * @link GnucashTaxTable
    */
+  @Override
   public Collection<GCshBillTerms> getBillTerms() {
     if (billTermsByID == null) {
       billTermsByID = new HashMap<String, GCshBillTerms>();
@@ -299,8 +312,10 @@ public class GnucashFileImpl implements GnucashFile {
   // ---------------------------------------------------------------
 
   /**
-   * @return a read-only collection of all accounts that have no parent (the result is sorted)
+   * @return a read-only collection of all accounts that have no parent (the
+   *         result is sorted)
    */
+  @Override
   public Collection<? extends GnucashAccount> getRootAccounts() {
     try {
       Collection<GnucashAccount> retval = new TreeSet<GnucashAccount>();
@@ -326,6 +341,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @param id if null, gives all account that have no parent
    * @return the sorted collection of children of that account
    */
+  @Override
   public Collection<GnucashAccount> getAccountsByParentID(final String id) {
     if (accountID2account == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -339,11 +355,11 @@ public class GnucashFileImpl implements GnucashFile {
       String parent = account.getParentAccountId();
       if (parent == null) {
         if (id == null) {
-          retval.add((GnucashAccount) account);
+          retval.add(account);
         }
       } else {
         if (parent.equals(id)) {
-          retval.add((GnucashAccount) account);
+          retval.add(account);
         }
       }
     }
@@ -354,6 +370,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getAccountByName(java.lang.String)
    */
+  @Override
   public GnucashAccount getAccountByName(final String name) {
 
     if (accountID2account == null) {
@@ -373,14 +390,16 @@ public class GnucashFileImpl implements GnucashFile {
   }
 
   /**
-   * warning: this function has to traverse all accounts. If it much faster to try getAccountByID first and only call
-   * this method if the returned account does not have the right name.
+   * warning: this function has to traverse all accounts. If it much faster to try
+   * getAccountByID first and only call this method if the returned account does
+   * not have the right name.
    *
    * @param nameRegEx the regular expression of the name to look for
    * @return null if not found
    * @see #getAccountByID(String)
    * @see #getAccountByName(String)
    */
+  @Override
   public GnucashAccount getAccountByNameEx(final String nameRegEx) {
 
     if (accountID2account == null) {
@@ -404,7 +423,8 @@ public class GnucashFileImpl implements GnucashFile {
   }
 
   /**
-   * First try to fetch the account by id, then fall back to traversing all accounts to get if by it's name.
+   * First try to fetch the account by id, then fall back to traversing all
+   * accounts to get if by it's name.
    *
    * @param id   the id to look for
    * @param name the name to look for if nothing is found for the id
@@ -412,6 +432,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @see #getAccountByID(String)
    * @see #getAccountByName(String)
    */
+  @Override
   public GnucashAccount getAccountByIDorName(final String id, final String name) {
     GnucashAccount retval = getAccountByID(id);
     if (retval == null) {
@@ -422,14 +443,17 @@ public class GnucashFileImpl implements GnucashFile {
   }
 
   /**
-   * First try to fetch the account by id, then fall back to traversing all accounts to get if by it's name.
+   * First try to fetch the account by id, then fall back to traversing all
+   * accounts to get if by it's name.
    *
    * @param id   the id to look for
-   * @param name the regular expression of the name to look for if nothing is found for the id
+   * @param name the regular expression of the name to look for if nothing is
+   *             found for the id
    * @return null if not found
    * @see #getAccountByID(String)
    * @see #getAccountByName(String)
    */
+  @Override
   public GnucashAccount getAccountByIDorNameEx(final String id, final String name) {
     GnucashAccount retval = getAccountByID(id);
     if (retval == null) {
@@ -442,6 +466,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getGenerInvoiceByID(java.lang.String)
    */
+  @Override
   public GnucashGenerInvoice getGenerInvoiceByID(final String id) {
     if (invoiceID2invoice == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -458,6 +483,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getGenerInvoices()
    */
+  @Override
   public Collection<GnucashGenerInvoice> getGenerInvoices() {
 
     Collection<GnucashGenerInvoice> c = invoiceID2invoice.values();
@@ -472,6 +498,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getPaidGenerInvoices()
    */
+  @Override
   public Collection<GnucashGenerInvoice> getPaidGenerInvoices() {
     Collection<GnucashGenerInvoice> retval = new LinkedList<GnucashGenerInvoice>();
     for (GnucashGenerInvoice invc : getGenerInvoices()) {
@@ -516,6 +543,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidGenerInvoices()
    */
+  @Override
   public Collection<GnucashGenerInvoice> getUnpaidGenerInvoices() {
     Collection<GnucashGenerInvoice> retval = new LinkedList<GnucashGenerInvoice>();
     for (GnucashGenerInvoice invc : getGenerInvoices()) {
@@ -562,6 +590,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashCustomerInvoice> getInvoicesForCustomer_direct(final GnucashCustomer cust)
       throws WrongInvoiceTypeException {
     Collection<GnucashCustomerInvoice> retval = new LinkedList<GnucashCustomerInvoice>();
@@ -585,6 +614,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashJobInvoice> getInvoicesForCustomer_viaAllJobs(final GnucashCustomer cust)
       throws WrongInvoiceTypeException {
     Collection<GnucashJobInvoice> retval = new LinkedList<GnucashJobInvoice>();
@@ -602,6 +632,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashCustomerInvoice> getPaidInvoicesForCustomer_direct(final GnucashCustomer cust)
       throws WrongInvoiceTypeException {
     Collection<GnucashCustomerInvoice> retval = new LinkedList<GnucashCustomerInvoice>();
@@ -625,6 +656,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashJobInvoice> getPaidInvoicesForCustomer_viaAllJobs(final GnucashCustomer cust)
       throws WrongInvoiceTypeException {
     Collection<GnucashJobInvoice> retval = new LinkedList<GnucashJobInvoice>();
@@ -642,6 +674,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashCustomerInvoice> getUnpaidInvoicesForCustomer_direct(final GnucashCustomer cust)
       throws WrongInvoiceTypeException {
     Collection<GnucashCustomerInvoice> retval = new LinkedList<GnucashCustomerInvoice>();
@@ -665,6 +698,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashJobInvoice> getUnpaidInvoicesForCustomer_viaAllJobs(final GnucashCustomer cust)
       throws WrongInvoiceTypeException {
     Collection<GnucashJobInvoice> retval = new LinkedList<GnucashJobInvoice>();
@@ -684,6 +718,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidBillsForVendor_viaJob(GnucashVendor)
    */
+  @Override
   public Collection<GnucashVendorBill> getBillsForVendor_direct(final GnucashVendor vend)
       throws WrongInvoiceTypeException {
     Collection<GnucashVendorBill> retval = new LinkedList<GnucashVendorBill>();
@@ -707,6 +742,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashJobInvoice> getBillsForVendor_viaAllJobs(final GnucashVendor vend)
       throws WrongInvoiceTypeException {
     Collection<GnucashJobInvoice> retval = new LinkedList<GnucashJobInvoice>();
@@ -724,6 +760,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidBillsForVendor_viaJob(GnucashVendor)
    */
+  @Override
   public Collection<GnucashVendorBill> getPaidBillsForVendor_direct(final GnucashVendor vend)
       throws WrongInvoiceTypeException {
     Collection<GnucashVendorBill> retval = new LinkedList<GnucashVendorBill>();
@@ -747,6 +784,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashJobInvoice> getPaidBillsForVendor_viaAllJobs(final GnucashVendor vend)
       throws WrongInvoiceTypeException {
     Collection<GnucashJobInvoice> retval = new LinkedList<GnucashJobInvoice>();
@@ -764,6 +802,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidBillsForVendor_viaJob(GnucashVendor)
    */
+  @Override
   public Collection<GnucashVendorBill> getUnpaidBillsForVendor_direct(final GnucashVendor vend)
       throws WrongInvoiceTypeException {
     Collection<GnucashVendorBill> retval = new LinkedList<GnucashVendorBill>();
@@ -787,6 +826,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashJobInvoice> getUnpaidBillsForVendor_viaAllJobs(final GnucashVendor vend)
       throws WrongInvoiceTypeException {
     Collection<GnucashJobInvoice> retval = new LinkedList<GnucashJobInvoice>();
@@ -806,6 +846,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashJobInvoice> getInvoicesForJob(final GnucashGenerJob job) throws WrongInvoiceTypeException {
     Collection<GnucashJobInvoice> retval = new LinkedList<GnucashJobInvoice>();
 
@@ -824,10 +865,49 @@ public class GnucashFileImpl implements GnucashFile {
     return retval;
   }
 
+  @Override
+  public Collection<GnucashBudget> getBudgets() {
+    if (budgetID2budget == null) {
+      throw new IllegalStateException("no root-element loaded");
+    }
+    return Collections.unmodifiableCollection(budgetID2budget.values());
+  }
+
+  @Override
+  public GnucashBudget getBudgetByID(final String id) {
+    if (budgetID2budget == null) {
+      throw new IllegalStateException("no root-element loaded");
+    }
+    GnucashBudget retval = budgetID2budget.get(id);
+    if (retval == null) {
+      LOGGER.warn("No Budget with id '" + id + "'. We know " + budgetID2budget.size() + " budgets.");
+    }
+    return retval;
+  }
+
+  @Override
+  public GnucashBudget getBudgetByName(final String name) {
+    if (budgetID2budget == null) {
+      throw new IllegalStateException("no root-element loaded");
+    }
+    for (GnucashBudget budget : budgetID2budget.values()) {
+      if (budget.getName().equals(name)) {
+        return budget;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public int getNofEntriesBudgetMap() {
+    return budgetID2budget.size();
+  }
+
   /**
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashJobInvoice> getPaidInvoicesForJob(final GnucashGenerJob job)
       throws WrongInvoiceTypeException {
     Collection<GnucashJobInvoice> retval = new LinkedList<GnucashJobInvoice>();
@@ -851,6 +931,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @throws WrongInvoiceTypeException
    * @see GnucashFile#getUnpaidInvoicesForCustomer_direct(GnucashCustomer)
    */
+  @Override
   public Collection<GnucashJobInvoice> getUnpaidInvoicesForJob(final GnucashGenerJob job)
       throws WrongInvoiceTypeException {
     Collection<GnucashJobInvoice> retval = new LinkedList<GnucashJobInvoice>();
@@ -875,6 +956,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getGenerInvoiceByID(java.lang.String)
    */
+  @Override
   public GnucashGenerInvoiceEntry getGenerInvoiceEntryByID(final String id) {
     if (invoiceEntryID2invoiceEntry == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -912,12 +994,14 @@ public class GnucashFileImpl implements GnucashFile {
    * @return the latest price-quote in the gnucash-file in EURO
    * @see {@link GnucashFile#getLatestPrice(String, String)}
    */
+  @Override
   public FixedPointNumber getLatestPrice(final String pCmdtySpace, final String pCmdtyId) {
     return getLatestPrice(pCmdtySpace, pCmdtyId, 0);
   }
 
   /**
-   * the top-level Element of the gnucash-files parsed and checked for validity by JAXB.
+   * the top-level Element of the gnucash-files parsed and checked for validity by
+   * JAXB.
    */
   private GncV2 rootElement;
 
@@ -986,7 +1070,8 @@ public class GnucashFileImpl implements GnucashFile {
   protected Map<String, GnucashVendor> vendorID2vendor;
 
   /**
-   * Helper to implement the {@link GnucashObject}-interface without having the same code twice.
+   * Helper to implement the {@link GnucashObject}-interface without having the
+   * same code twice.
    */
   private GnucashObjectImpl myGnucashObject;
 
@@ -1034,6 +1119,8 @@ public class GnucashFileImpl implements GnucashFile {
     initVendorMap(pRootElement);
 
     initJobMap(pRootElement);
+
+    initBudgetMap(pRootElement);
 
     // check for unknown book-elements
     for (Iterator<Object> iter = pRootElement.getGncBook().getBookElements().iterator(); iter.hasNext();) {
@@ -1111,6 +1198,31 @@ public class GnucashFileImpl implements GnucashFile {
     } // for
 
     LOGGER.debug("No. of entries in account map: " + accountID2account.size());
+  }
+
+  private void initBudgetMap(final GncV2 pRootElement) {
+    budgetID2budget = new HashMap<>();
+
+    for (Iterator<Object> iter = pRootElement.getGncBook().getBookElements().iterator(); iter.hasNext();) {
+      Object bookElement = iter.next();
+      if (!(bookElement instanceof GncBudget)) {
+        continue;
+      }
+      GncBudget jwsdpBudget = (GncBudget) bookElement;
+
+      try {
+        GnucashBudgetImpl budget = createBudget(jwsdpBudget);
+        budgetID2budget.put(budget.getId(), budget);
+      } catch (RuntimeException e) {
+        LOGGER.error("Fout bij laden budget: " + jwsdpBudget.getBgtId().getValue(), e);
+      }
+    }
+
+    LOGGER.debug("No. of entries in budget map: " + budgetID2budget.size());
+  }
+
+  protected GnucashBudgetImpl createBudget(final GncBudget jwsdpBudget) {
+    return new GnucashBudgetImpl(jwsdpBudget, this);
   }
 
   private void initGenerInvoiceMap(final GncV2 pRootElement) {
@@ -1257,11 +1369,13 @@ public class GnucashFileImpl implements GnucashFile {
   // ---------------------------------------------------------------
 
   /**
-   * Use a heuristic to determine the defaultcurrency-id. If we cannot find one, we default to EUR.<br/>
+   * Use a heuristic to determine the defaultcurrency-id. If we cannot find one,
+   * we default to EUR.<br/>
    * Comodity-stace is fixed as "ISO4217" .
    *
    * @return the default-currencyID to use.
    */
+  @Override
   public String getDefaultCurrencyID() {
     GncV2 root = getRootElement();
     if (root == null) {
@@ -1339,10 +1453,12 @@ public class GnucashFileImpl implements GnucashFile {
     }
   }
 
+  @Override
   public int getNofEntriesPricesInDB() {
     return priceDB.getPrice().size();
   }
 
+  @Override
   public GncPricedb getPriceDB() {
     return priceDB;
   }
@@ -1355,8 +1471,9 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @param pCmdtySpace the namespace for pCmdtyId
    * @param pCmdtyId    the currency-name
-   * @param depth       used for recursion. Allways call with '0' for aborting recursive quotes (quotes to other then
-   *                    the base- currency) we abort if the depth reached maxRecursionDepth+1.
+   * @param depth       used for recursion. Allways call with '0' for aborting
+   *                    recursive quotes (quotes to other then the base- currency)
+   *                    we abort if the depth reached maxRecursionDepth+1.
    * @return the latest price-quote in the gnucash-file in the default-currency
    * @see {@link GnucashFile#getLatestPrice(String, String)}
    * @see #getDefaultCurrencyID()
@@ -1379,7 +1496,7 @@ public class GnucashFileImpl implements GnucashFile {
         continue;
       }
       GncPricedb priceDB = (GncPricedb) bookElement;
-      for (Price priceQuote : (List<Price>) priceDB.getPrice()) {
+      for (Price priceQuote : priceDB.getPrice()) {
 
         try {
           if (priceQuote == null) {
@@ -1408,9 +1525,10 @@ public class GnucashFileImpl implements GnucashFile {
             continue;
           }
           /*
-           * if (priceQuote.getPriceCommodity().getCmdtySpace().equals("FUND") && priceQuote.getPriceType() == null) {
-           * LOGGER.warn("gnucash-file contains FUND-price-quotes" + " with no type id='" +
-           * priceQuote.getPriceId().getValue() + "'"); continue; }
+           * if (priceQuote.getPriceCommodity().getCmdtySpace().equals("FUND") &&
+           * priceQuote.getPriceType() == null) {
+           * LOGGER.warn("gnucash-file contains FUND-price-quotes" + " with no type id='"
+           * + priceQuote.getPriceId().getValue() + "'"); continue; }
            */
           if (!priceQuote.getPriceCommodity().getCmdtySpace().equals(pCmdtySpace)) {
             continue;
@@ -1419,8 +1537,10 @@ public class GnucashFileImpl implements GnucashFile {
             continue;
           }
           /*
-           * if (priceQuote.getPriceCommodity().getCmdtySpace().equals("FUND") && (priceQuote.getPriceType() == null ||
-           * !priceQuote.getPriceType().equals("last") )) { LOGGER.warn("ignoring FUND-price-quote of unknown type '" +
+           * if (priceQuote.getPriceCommodity().getCmdtySpace().equals("FUND") &&
+           * (priceQuote.getPriceType() == null ||
+           * !priceQuote.getPriceType().equals("last") )) {
+           * LOGGER.warn("ignoring FUND-price-quote of unknown type '" +
            * priceQuote.getPriceType() + "' expecting 'last' "); continue; }
            */
 
@@ -1504,7 +1624,8 @@ public class GnucashFileImpl implements GnucashFile {
   }
 
   /**
-   * @param jwsdpInvcEntr the JWSDP-peer (parsed xml-element) to fill our object with
+   * @param jwsdpInvcEntr the JWSDP-peer (parsed xml-element) to fill our object
+   *                      with
    * @return the new GnucashInvoiceEntry to wrap the given jaxb-object.
    */
   protected GnucashGenerInvoiceEntry createGenerInvoiceEntry(final GncV2.GncBook.GncGncEntry jwsdpInvcEntr) {
@@ -1575,7 +1696,8 @@ public class GnucashFileImpl implements GnucashFile {
    * loads the file and calls setRootElement.
    *
    * @param pFile the file to read
-   * @throws IOException on low level reading-errors (FileNotFoundException if not found)
+   * @throws IOException on low level reading-errors (FileNotFoundException if not
+   *                     found)
    * @see #setRootElement(GncV2)
    */
   protected void loadFile(final File pFile) throws IOException {
@@ -1646,7 +1768,8 @@ public class GnucashFileImpl implements GnucashFile {
   private volatile ObjectFactory myJAXBFactory;
 
   /**
-   * @return the jaxb object-factory used to create new peer-objects to extend this
+   * @return the jaxb object-factory used to create new peer-objects to extend
+   *         this
    */
   public ObjectFactory getObjectFactory() {
     if (myJAXBFactory == null) {
@@ -1680,7 +1803,7 @@ public class GnucashFileImpl implements GnucashFile {
    */
   protected GncCountData findCountDataByType(final String type) {
     for (Iterator<GncCountData> iter = getRootElement().getGncBook().getGncCountData().iterator(); iter.hasNext();) {
-      GncCountData count = (GncCountData) iter.next();
+      GncCountData count = iter.next();
       if (count.getCdType().equals(type)) {
         return count;
       }
@@ -1699,6 +1822,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getAccountByID(java.lang.String)
    */
+  @Override
   public GnucashAccount getAccountByID(final String id) {
     if (accountID2account == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -1716,6 +1840,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getCustomerByID(java.lang.String)
    */
+  @Override
   public GnucashCustomer getCustomerByID(final String id) {
     if (customerID2customer == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -1731,6 +1856,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getCustomerByName(java.lang.String)
    */
+  @Override
   public GnucashCustomer getCustomerByName(final String name) {
 
     if (customerID2customer == null) {
@@ -1748,6 +1874,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getCustomers()
    */
+  @Override
   public Collection<GnucashCustomer> getCustomers() {
     return customerID2customer.values();
   }
@@ -1831,6 +1958,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getGenerJobByID(java.lang.String)
    */
+  @Override
   public GnucashGenerJob getGenerJobByID(final String id) {
     if (jobID2job == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -1847,6 +1975,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getGenerJobs()
    */
+  @Override
   public Collection<GnucashGenerJob> getGenerJobs() {
     if (jobID2job == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -1857,6 +1986,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getTransactionByID(java.lang.String)
    */
+  @Override
   public GnucashTransaction getTransactionByID(final String id) {
     if (transactionID2transaction == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -1889,6 +2019,7 @@ public class GnucashFileImpl implements GnucashFile {
   /**
    * @see GnucashFile#getTransactions()
    */
+  @Override
   public Collection<? extends GnucashTransaction> getTransactions() {
     if (transactionID2transaction == null) {
       throw new IllegalStateException("no root-element loaded");
@@ -2195,34 +2326,42 @@ public class GnucashFileImpl implements GnucashFile {
   // ---------------------------------------------------------------
   // Statistics (for test purposes)
 
+  @Override
   public int getNofEntriesAccountMap() {
     return accountID2account.size();
   }
 
+  @Override
   public int getNofEntriesTransactionMap() {
     return transactionID2transaction.size();
   }
 
+  @Override
   public int getNofEntriesTransactionSplitsMap() {
     return transactionSplitID2transactionSplit.size();
   }
 
+  @Override
   public int getNofEntriesGenerInvoiceMap() {
     return invoiceID2invoice.size();
   }
 
+  @Override
   public int getNofEntriesGenerInvoiceEntriesMap() {
     return invoiceEntryID2invoiceEntry.size();
   }
 
+  @Override
   public int getNofEntriesGenerJobMap() {
     return jobID2job.size();
   }
 
+  @Override
   public int getNofEntriesCustomerMap() {
     return customerID2customer.size();
   }
 
+  @Override
   public int getNofEntriesVendorMap() {
     return vendorID2vendor.size();
   }
@@ -2237,19 +2376,22 @@ public class GnucashFileImpl implements GnucashFile {
   // before using the job-methods!
 
   /**
-   * Assuming that all customer numbers (manually set IDs, not GUIDs) are numeric as generated by default.
+   * Assuming that all customer numbers (manually set IDs, not GUIDs) are numeric
+   * as generated by default.
    * 
    * @param gcshFile
    * @return
    */
+  @Override
   public int getHighestCustomerNumber() {
     int highest = -1;
 
     for (GnucashCustomer cust : customerID2customer.values()) {
       try {
         int newNum = Integer.parseInt(cust.getNumber());
-        if (newNum > highest)
+        if (newNum > highest) {
           highest = newNum;
+        }
       } catch (Exception exc) {
         // We run into this exception even when we stick to the
         // automatically generated numbers, because this API's
@@ -2264,19 +2406,22 @@ public class GnucashFileImpl implements GnucashFile {
   }
 
   /**
-   * Assuming that all vendor numbers (manually set IDs, not GUIDs) are numeric as generated by default.
+   * Assuming that all vendor numbers (manually set IDs, not GUIDs) are numeric as
+   * generated by default.
    * 
    * @param gcshFile
    * @return
    */
+  @Override
   public int getHighestVendorNumber() {
     int highest = -1;
 
     for (GnucashVendor vend : vendorID2vendor.values()) {
       try {
         int newNum = Integer.parseInt(vend.getNumber());
-        if (newNum > highest)
+        if (newNum > highest) {
           highest = newNum;
+        }
       } catch (Exception exc) {
         // Cf. .getHighestCustomerNumber() above.
         // ==> ::TODO Adapt how a vendor object is created.
@@ -2288,22 +2433,25 @@ public class GnucashFileImpl implements GnucashFile {
   }
 
   /**
-   * Assuming that all job numbers (manually set IDs, not GUIDs) are numeric as generated by default.
+   * Assuming that all job numbers (manually set IDs, not GUIDs) are numeric as
+   * generated by default.
    * 
-   * CAUTION: As opposed to customers and vendors, it may not be a good idea to actually have the job numbers generated
-   * automatically.
+   * CAUTION: As opposed to customers and vendors, it may not be a good idea to
+   * actually have the job numbers generated automatically.
    * 
    * @param gcshFile
    * @return
    */
+  @Override
   public int getHighestJobNumber() {
     int highest = -1;
 
     for (GnucashGenerJob job : jobID2job.values()) {
       try {
         int newNum = Integer.parseInt(job.getNumber());
-        if (newNum > highest)
+        if (newNum > highest) {
           highest = newNum;
+        }
       } catch (Exception exc) {
         // We run into this exception even when we stick to the
         // automatically generated numbers, because this API's
@@ -2320,11 +2468,13 @@ public class GnucashFileImpl implements GnucashFile {
   // ----------------------------
 
   /**
-   * Assuming that all customer numbers (manually set IDs, not GUIDs) are numeric as generated by default.
+   * Assuming that all customer numbers (manually set IDs, not GUIDs) are numeric
+   * as generated by default.
    * 
    * @param gcshFile
    * @return
    */
+  @Override
   public String getNewCustomerNumber() {
     int newNo = getHighestCustomerNumber() + 1;
     String newNoStr = Integer.toString(newNo);
@@ -2336,11 +2486,13 @@ public class GnucashFileImpl implements GnucashFile {
   }
 
   /**
-   * Assuming that all customer numbers (manually set IDs, not GUIDs) are numeric as generated by default.
+   * Assuming that all customer numbers (manually set IDs, not GUIDs) are numeric
+   * as generated by default.
    * 
    * @param gcshFile
    * @return
    */
+  @Override
   public String getNewVendorNumber() {
     int newNo = getHighestVendorNumber() + 1;
     String newNoStr = Integer.toString(newNo);
@@ -2352,14 +2504,16 @@ public class GnucashFileImpl implements GnucashFile {
   }
 
   /**
-   * Assuming that all job numbers (manually set IDs, not GUIDs) are numeric as generated by default.
+   * Assuming that all job numbers (manually set IDs, not GUIDs) are numeric as
+   * generated by default.
    * 
-   * CAUTION: As opposed to customers and vendors, it may not be a good idea to actually have the job numbers generated
-   * automatically.
+   * CAUTION: As opposed to customers and vendors, it may not be a good idea to
+   * actually have the job numbers generated automatically.
    * 
    * @param gcshFile
    * @return
    */
+  @Override
   public String getNewJobNumber() {
     int newNo = getHighestJobNumber() + 1;
     String newNoStr = Integer.toString(newNo);
