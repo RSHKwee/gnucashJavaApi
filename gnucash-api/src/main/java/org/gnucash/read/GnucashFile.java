@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.gnucash.currency.ComplexCurrencyTable;
 import org.gnucash.generated.GncPricedb;
 import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.read.GnucashBudget;
 import org.gnucash.read.auxiliary.GCshBillTerms;
 import org.gnucash.read.auxiliary.GCshTaxTable;
 import org.gnucash.read.spec.GnucashCustomerInvoice;
@@ -28,14 +29,16 @@ public interface GnucashFile extends GnucashObject {
   File getFile();
 
   /**
-   * The Currency-Table gets initialized with the latest prices found in the gnucash-file.
+   * The Currency-Table gets initialized with the latest prices found in the
+   * gnucash-file.
    * 
    * @return Returns the currencyTable.
    */
   ComplexCurrencyTable getCurrencyTable();
 
   /**
-   * Use a heuristic to determine the defaultcurrency-id. If we cannot find one, we default to EUR.<br/>
+   * Use a heuristic to determine the defaultcurrency-id. If we cannot find one,
+   * we default to EUR.<br/>
    * Comodity-stace is fixed as "ISO4217" .
    * 
    * @return the default-currencyID to use.
@@ -113,7 +116,8 @@ public interface GnucashFile extends GnucashObject {
   GnucashGenerJob getGenerJobByID(String id);
 
   /**
-   * @return a (possibly read-only) collection of all jobs Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all jobs Do not modify the
+   *         returned collection!
    */
   Collection<GnucashGenerJob> getGenerJobs();
 
@@ -124,7 +128,8 @@ public interface GnucashFile extends GnucashObject {
   GnucashTransaction getTransactionByID(String id);
 
   /**
-   * @return a (possibly read-only) collection of all transactions Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all transactions Do not modify
+   *         the returned collection!
    */
   Collection<? extends GnucashTransaction> getTransactions();
 
@@ -161,7 +166,8 @@ public interface GnucashFile extends GnucashObject {
   GnucashGenerInvoiceEntry getGenerInvoiceEntryByID(String id);
 
   /**
-   * @return a (possibly read-only) collection of all invoices Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices Do not modify the
+   *         returned collection!
    * @see #getUnpaidGenerInvoices()
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoiceByID(String)
@@ -170,8 +176,8 @@ public interface GnucashFile extends GnucashObject {
   Collection<GnucashGenerInvoice> getGenerInvoices();
 
   /**
-   * @return a (possibly read-only) collection of all invoices that are fully Paid Do not modify the returned
-   *         collection!
+   * @return a (possibly read-only) collection of all invoices that are fully Paid
+   *         Do not modify the returned collection!
    * @throws WrongInvoiceTypeException
    * @see #getUnpaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -181,8 +187,8 @@ public interface GnucashFile extends GnucashObject {
   Collection<GnucashGenerInvoice> getPaidGenerInvoices();
 
   /**
-   * @return a (possibly read-only) collection of all invoices that are not fully Paid Do not modify the returned
-   *         collection!
+   * @return a (possibly read-only) collection of all invoices that are not fully
+   *         Paid Do not modify the returned collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -195,8 +201,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param customer the customer to look for (not null)
-   * @return a (possibly read-only) collection of all invoices that have fully been paid and are from the given
-   *         customer. Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices that have fully
+   *         been paid and are from the given customer. Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -208,8 +215,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param customer the customer to look for (not null)
-   * @return a (possibly read-only) collection of all invoices that have fully been paid and are from the given
-   *         customer. Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices that have fully
+   *         been paid and are from the given customer. Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -221,8 +229,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param customer the customer to look for (not null)
-   * @return a (possibly read-only) collection of all invoices that have fully been paid and are from the given
-   *         customer. Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices that have fully
+   *         been paid and are from the given customer. Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -234,8 +243,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param customer the customer to look for (not null)
-   * @return a (possibly read-only) collection of all invoices that have fully been paid and are from the given
-   *         customer. Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices that have fully
+   *         been paid and are from the given customer. Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -247,8 +257,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param customer the customer to look for (not null)
-   * @return a (possibly read-only) collection of all invoices that have not fully been paid and are from the given
-   *         customer Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices that have not fully
+   *         been paid and are from the given customer Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -260,8 +271,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param customer the customer to look for (not null)
-   * @return a (possibly read-only) collection of all invoices that have not fully been paid and are from the given
-   *         customer Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices that have not fully
+   *         been paid and are from the given customer Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -275,8 +287,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param vendor the vendor to look for (not null)
-   * @return a (possibly read-only) collection of all bills that have fully been paid and are from the given vendor Do
-   *         not modify the returned collection!
+   * @return a (possibly read-only) collection of all bills that have fully been
+   *         paid and are from the given vendor Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -287,8 +300,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param vendor the vendor to look for (not null)
-   * @return a (possibly read-only) collection of all bills that have fully been paid and are from the given vendor Do
-   *         not modify the returned collection!
+   * @return a (possibly read-only) collection of all bills that have fully been
+   *         paid and are from the given vendor Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -299,8 +313,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param vendor the vendor to look for (not null)
-   * @return a (possibly read-only) collection of all bills that have fully been paid and are from the given vendor Do
-   *         not modify the returned collection!
+   * @return a (possibly read-only) collection of all bills that have fully been
+   *         paid and are from the given vendor Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -311,8 +326,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param vendor the vendor to look for (not null)
-   * @return a (possibly read-only) collection of all bills that have fully been paid and are from the given vendor Do
-   *         not modify the returned collection!
+   * @return a (possibly read-only) collection of all bills that have fully been
+   *         paid and are from the given vendor Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -323,8 +339,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param vendor the vendor to look for (not null)
-   * @return a (possibly read-only) collection of all bills that have not fully been paid and are from the given vendor
-   *         Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all bills that have not fully
+   *         been paid and are from the given vendor Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -335,8 +352,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param vendor the vendor to look for (not null)
-   * @return a (possibly read-only) collection of all bills that have not fully been paid and are from the given vendor
-   *         Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all bills that have not fully
+   *         been paid and are from the given vendor Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -349,8 +367,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param vendor the job to look for (not null)
-   * @return a (possibly read-only) collection of all invoices that have fully been paid and are from the given job Do
-   *         not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices that have fully
+   *         been paid and are from the given job Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -361,8 +380,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param vendor the job to look for (not null)
-   * @return a (possibly read-only) collection of all invoices that have fully been paid and are from the given job Do
-   *         not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices that have fully
+   *         been paid and are from the given job Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -373,8 +393,9 @@ public interface GnucashFile extends GnucashObject {
 
   /**
    * @param vendor the job to look for (not null)
-   * @return a (possibly read-only) collection of all invoices that have not fully been paid and are from the given job
-   *         Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all invoices that have not fully
+   *         been paid and are from the given job Do not modify the returned
+   *         collection!
    * @throws WrongInvoiceTypeException
    * @see #getPaidGenerInvoices()
    * @see #getGenerInvoices()
@@ -386,8 +407,9 @@ public interface GnucashFile extends GnucashObject {
   // ---------------------------------------------------------------
 
   /**
-   * warning: this function has to traverse all accounts. If it much faster to try getAccountByID first and only call
-   * this method if the returned account does not have the right name.
+   * warning: this function has to traverse all accounts. If it much faster to try
+   * getAccountByID first and only call this method if the returned account does
+   * not have the right name.
    *
    * @param name the UNQUaLIFIED name to look for
    * @return null if not found
@@ -396,8 +418,9 @@ public interface GnucashFile extends GnucashObject {
   GnucashAccount getAccountByName(String name);
 
   /**
-   * warning: this function has to traverse all accounts. If it much faster to try getAccountByID first and only call
-   * this method if the returned account does not have the right name.
+   * warning: this function has to traverse all accounts. If it much faster to try
+   * getAccountByID first and only call this method if the returned account does
+   * not have the right name.
    *
    * @param name the regular expression of the name to look for
    * @return null if not found
@@ -407,7 +430,8 @@ public interface GnucashFile extends GnucashObject {
   GnucashAccount getAccountByNameEx(String name);
 
   /**
-   * First try to fetch the account by id, then fall back to traversing all accounts to get if by it's name.
+   * First try to fetch the account by id, then fall back to traversing all
+   * accounts to get if by it's name.
    *
    * @param id   the id to look for
    * @param name the name to look for if nothing is found for the id
@@ -418,10 +442,12 @@ public interface GnucashFile extends GnucashObject {
   GnucashAccount getAccountByIDorName(String id, String name);
 
   /**
-   * First try to fetch the account by id, then fall back to traversing all accounts to get if by it's name.
+   * First try to fetch the account by id, then fall back to traversing all
+   * accounts to get if by it's name.
    *
    * @param id   the id to look for
-   * @param name the regular expression of the name to look for if nothing is found for the id
+   * @param name the regular expression of the name to look for if nothing is
+   *             found for the id
    * @return null if not found
    * @see #getAccountByID(String)
    * @see #getAccountByName(String)
@@ -437,8 +463,9 @@ public interface GnucashFile extends GnucashObject {
   GnucashCustomer getCustomerByID(String id);
 
   /**
-   * warning: this function has to traverse all customers. If it much faster to try getCustomerByID first and only call
-   * this method if the returned account does not have the right name.
+   * warning: this function has to traverse all customers. If it much faster to
+   * try getCustomerByID first and only call this method if the returned account
+   * does not have the right name.
    *
    * @param name the name to look for
    * @return null if not found
@@ -447,7 +474,8 @@ public interface GnucashFile extends GnucashObject {
   GnucashCustomer getCustomerByName(String name);
 
   /**
-   * @return a (possibly read-only) collection of all customers Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all customers Do not modify the
+   *         returned collection!
    */
   Collection<GnucashCustomer> getCustomers();
 
@@ -460,8 +488,9 @@ public interface GnucashFile extends GnucashObject {
   GnucashVendor getVendorByID(String id);
 
   /**
-   * warning: this function has to traverse all vendors. If it much faster to try getVendorByID first and only call this
-   * method if the returned account does not have the right name.
+   * warning: this function has to traverse all vendors. If it much faster to try
+   * getVendorByID first and only call this method if the returned account does
+   * not have the right name.
    *
    * @param name the name to look for
    * @return null if not found
@@ -470,7 +499,8 @@ public interface GnucashFile extends GnucashObject {
   GnucashVendor getVendorByName(String name);
 
   /**
-   * @return a (possibly read-only) collection of all vendors Do not modify the returned collection!
+   * @return a (possibly read-only) collection of all vendors Do not modify the
+   *         returned collection!
    */
   Collection<GnucashVendor> getVendors();
 
@@ -518,4 +548,14 @@ public interface GnucashFile extends GnucashObject {
 
   public String getNewJobNumber();
 
+//---------------------------------------------------------------
+//Budgetten
+//---------------------------------------------------------------
+  public Collection<GnucashBudget> getBudgets();
+
+  public GnucashBudget getBudgetByID(String id);
+
+  public GnucashBudget getBudgetByName(String name);
+
+  public int getNofEntriesBudgetMap();
 }
