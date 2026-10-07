@@ -19,16 +19,14 @@ import java.util.Collection;
  *     -Dexec.args="pad/naar/boekhouding.gnucash"
  */
 public class BudgetMain {
+  private static String gcshFileName = "example_budget.gnucash";
 
     public static void main(String[] args) throws Exception {
 
         // ---------------------------------------------------------------
         // 1. GnuCash bestand laden -- zelfde als altijd
         // ---------------------------------------------------------------
-        String path = args.length > 0 ? args[0] : "boekhouding.gnucash";
-        path = "D:\\Users\\René\\SynologyDrive\\Documenten\\Administraties\\Bewindvoering.gnucash";
-
-        File gcFile = new File(path);
+        File gcFile = new File(gcshFileName);
 
         if (!gcFile.exists()) {
             System.err.println("Bestand niet gevonden: " + gcFile.getAbsolutePath());
