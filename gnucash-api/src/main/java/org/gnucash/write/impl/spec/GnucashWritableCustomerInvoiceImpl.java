@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 import org.gnucash.generated.GncV2;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashCustomer;
 import org.gnucash.read.GnucashFile;
@@ -220,7 +220,7 @@ public class GnucashWritableCustomerInvoiceImpl extends GnucashWritableGenerInvo
    * @throws TaxTableNotFoundException
    */
   public GnucashWritableCustomerInvoiceEntry createEntry(final GnucashAccount acct,
-      final FixedPointNumber singleUnitPrice, final FixedPointNumber quantity)
+      final Amount singleUnitPrice, final Amount quantity)
       throws WrongInvoiceTypeException, TaxTableNotFoundException {
     GnucashWritableCustomerInvoiceEntry entry = createCustInvcEntry(acct, singleUnitPrice, quantity);
     return entry;
@@ -234,7 +234,7 @@ public class GnucashWritableCustomerInvoiceImpl extends GnucashWritableGenerInvo
    * @throws TaxTableNotFoundException
    */
   public GnucashWritableCustomerInvoiceEntry createEntry(final GnucashAccount acct,
-      final FixedPointNumber singleUnitPrice, final FixedPointNumber quantity, final String taxTabName)
+      final Amount singleUnitPrice, final Amount quantity, final String taxTabName)
       throws WrongInvoiceTypeException, TaxTableNotFoundException {
     GnucashWritableCustomerInvoiceEntry entry = createCustInvcEntry(acct, singleUnitPrice, quantity, taxTabName);
     return entry;
@@ -248,7 +248,7 @@ public class GnucashWritableCustomerInvoiceImpl extends GnucashWritableGenerInvo
    * @throws TaxTableNotFoundException
    */
   public GnucashWritableCustomerInvoiceEntry createEntry(final GnucashAccount acct,
-      final FixedPointNumber singleUnitPrice, final FixedPointNumber quantity, final GCshTaxTable taxTab)
+      final Amount singleUnitPrice, final Amount quantity, final GCshTaxTable taxTab)
       throws WrongInvoiceTypeException, TaxTableNotFoundException {
     GnucashWritableCustomerInvoiceEntry entry = createCustInvcEntry(acct, singleUnitPrice, quantity, taxTab);
     return entry;
@@ -269,7 +269,7 @@ public class GnucashWritableCustomerInvoiceImpl extends GnucashWritableGenerInvo
 
   /**
    * Called by
-   * ${@link GnucashWritableCustomerInvoiceEntryImpl#createCustInvoiceEntry_int(GnucashWritableGenerInvoiceImpl, GnucashAccount, FixedPointNumber, FixedPointNumber)}.
+   * ${@link GnucashWritableCustomerInvoiceEntryImpl#createCustInvoiceEntry_int(GnucashWritableGenerInvoiceImpl, GnucashAccount, Amount, Amount)}.
    *
    * @param entry the entry to add to our internal list of customer-invoice-entries
    * @throws WrongInvoiceTypeException

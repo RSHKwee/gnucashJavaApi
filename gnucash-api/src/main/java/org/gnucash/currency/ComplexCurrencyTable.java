@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashFile;
 
 /**
@@ -23,7 +23,7 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 	private static final long serialVersionUID = 7318173535959109553L;
 
 	public interface ComplexCurrencyTableChangeListener {
-		void conversionFactorChanged(final String namespace, final String currency, final FixedPointNumber factor);
+		void conversionFactorChanged(final String namespace, final String currency, final Amount factor);
 	}
 
 	private transient volatile List<ComplexCurrencyTableChangeListener> listeners = null;
@@ -43,7 +43,7 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 	}
 
 	protected void fireCurrencyTableChanged(final String namespace, final String currency,
-			final FixedPointNumber factor) {
+			final Amount factor) {
 		if (listeners != null) {
 			for (ComplexCurrencyTableChangeListener listener : listeners) {
 				listener.conversionFactorChanged(namespace, currency, factor);
@@ -177,10 +177,10 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 	}
 
 	/**
-	 * @see SimpleCurrencyTable#convertFromBaseCurrency(FixedPointNumber, java.lang.String)
+	 * @see SimpleCurrencyTable#convertFromBaseCurrency(Amount, java.lang.String)
 	 */
 	@Override
-	public boolean convertFromBaseCurrency(FixedPointNumber pValue, String pIso4217CurrencyCode) {
+	public boolean convertFromBaseCurrency(Amount pValue, String pIso4217CurrencyCode) {
 		if (pIso4217CurrencyCode == null) {
 			throw new IllegalArgumentException("null currency-id given!");
 		}
@@ -190,9 +190,9 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 
 	/**
 	 * @param namespace e.g. "ISO4217"
-	 * @see SimpleCurrencyTable#convertFromBaseCurrency(FixedPointNumber, String)
+	 * @see SimpleCurrencyTable#convertFromBaseCurrency(Amount, String)
 	 */
-	public boolean convertToBaseCurrency(final String namespace, final FixedPointNumber pValue,
+	public boolean convertToBaseCurrency(final String namespace, final Amount pValue,
 			final String pIso4217CurrencyCode) {
 
 		if (namespace == null) {
@@ -213,9 +213,9 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 
 	/**
 	 * @param namespace e.g. "ISO4217"
-	 * @see SimpleCurrencyTable#convertFromBaseCurrency(FixedPointNumber, String)
+	 * @see SimpleCurrencyTable#convertFromBaseCurrency(Amount, String)
 	 */
-	public boolean convertFromBaseCurrency(final String namespace, final FixedPointNumber pValue,
+	public boolean convertFromBaseCurrency(final String namespace, final Amount pValue,
 			final String pIso4217CurrencyCode) {
 
 		if (namespace == null) {
@@ -235,10 +235,10 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 	}
 
 	/**
-	 * @see SimpleCurrencyTable#convertToBaseCurrency(FixedPointNumber, java.lang.String)
+	 * @see SimpleCurrencyTable#convertToBaseCurrency(Amount, java.lang.String)
 	 */
 	@Override
-	public boolean convertToBaseCurrency(final FixedPointNumber pValue, final String pIso4217CurrencyCode) {
+	public boolean convertToBaseCurrency(final Amount pValue, final String pIso4217CurrencyCode) {
 		if (pIso4217CurrencyCode == null) {
 			throw new IllegalArgumentException("null currency-id given!");
 		}
@@ -249,7 +249,7 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 	 * @see SimpleCurrencyTable#getConversionFactor(java.lang.String)
 	 */
 	@Override
-	public FixedPointNumber getConversionFactor(final String pIso4217CurrencyCode) {
+	public Amount getConversionFactor(final String pIso4217CurrencyCode) {
 		if (pIso4217CurrencyCode == null) {
 			throw new IllegalArgumentException("null currency-id given!");
 		}
@@ -257,10 +257,10 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 	}
 
 	/**
-	 * @see SimpleCurrencyTable#setConversionFactor(java.lang.String, FixedPointNumber)
+	 * @see SimpleCurrencyTable#setConversionFactor(java.lang.String, Amount)
 	 */
 	@Override
-	public void setConversionFactor(final String pIso4217CurrencyCode, final FixedPointNumber pFactor) {
+	public void setConversionFactor(final String pIso4217CurrencyCode, final Amount pFactor) {
 
 		if (pIso4217CurrencyCode == null) {
 			throw new IllegalArgumentException("null currency-id given!");
@@ -277,10 +277,10 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 	/**
 	 * If the namespace does not exist yet, it is created.
 	 *
-	 * @see SimpleCurrencyTable#setConversionFactor(java.lang.String, FixedPointNumber)
+	 * @see SimpleCurrencyTable#setConversionFactor(java.lang.String, Amount)
 	 */
 	public void setConversionFactor(final String namespace, final String pIso4217CurrencyCode,
-			final FixedPointNumber pFactor) {
+			final Amount pFactor) {
 
 		if (namespace == null) {
 			throw new IllegalArgumentException("null namepace given!");
@@ -304,9 +304,9 @@ public class ComplexCurrencyTable extends SimpleCurrencyTable implements Seriali
 	}
 
 	/**
-	 * @see SimpleCurrencyTable#setConversionFactor(java.lang.String, FixedPointNumber)
+	 * @see SimpleCurrencyTable#setConversionFactor(java.lang.String, Amount)
 	 */
-	public FixedPointNumber getConversionFactor(final String namespace, final String pIso4217CurrencyCode) {
+	public Amount getConversionFactor(final String namespace, final String pIso4217CurrencyCode) {
 
 		if (pIso4217CurrencyCode == null) {
 			throw new IllegalArgumentException("null currency-id given!");

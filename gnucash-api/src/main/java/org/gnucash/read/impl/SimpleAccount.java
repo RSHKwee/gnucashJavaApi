@@ -19,7 +19,7 @@ import java.util.Locale;
 import org.gnucash.currency.ComplexCurrencyTable;
 import org.gnucash.currency.CurrencyNameSpace;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashTransaction;
@@ -110,7 +110,7 @@ public abstract class SimpleAccount implements GnucashAccount {
    *
    * @see #getBalance(LocalDate)
    */
-  public FixedPointNumber getBalance() {
+  public Amount getBalance() {
     return getBalance(LocalDate.now());
   }
 
@@ -157,16 +157,16 @@ public abstract class SimpleAccount implements GnucashAccount {
    * @return null if the conversion is not possible
    * @see #getBalance(LocalDate)
    */
-  public FixedPointNumber getBalance(final LocalDate date, final Currency currency) {
+  public Amount getBalance(final LocalDate date, final Currency currency) {
 
-    FixedPointNumber retval = getBalance(date);
+    Amount retval = getBalance(date);
 
     if (retval == null) {
       LOGGER.warn("SimpleAccount.getBalance() - error creating balance!");
       return null;
     }
 
-    if (currency == null || retval.equals(new FixedPointNumber())) {
+    if (currency == null || retval.equals(new Amount())) {
       return retval;
     }
 
@@ -216,14 +216,14 @@ public abstract class SimpleAccount implements GnucashAccount {
   /**
    * @see GnucashAccount#getBalanceRecursive()
    */
-  public FixedPointNumber getBalanceRecursive() {
+  public Amount getBalanceRecursive() {
     return getBalanceRecursive(LocalDate.now());
   }
 
   /**
    * @see GnucashAccount#getBalanceRecursive(LocalDate)
    */
-  public FixedPointNumber getBalanceRecursive(final LocalDate date) {
+  public Amount getBalanceRecursive(final LocalDate date) {
     return getBalanceRecursive(date, this.getCurrencyNameSpace(), this.getCurrencyID());
   }
 
@@ -271,13 +271,13 @@ public abstract class SimpleAccount implements GnucashAccount {
    * @return Gets the balance including all sub-accounts.
    * @see GnucashAccount#getBalanceRecursive(Date, Currency)
    */
-  public FixedPointNumber getBalanceRecursive(final LocalDate date, final String currencyNameSpace,
+  public Amount getBalanceRecursive(final LocalDate date, final String currencyNameSpace,
       final String currencyName) {
 
-    FixedPointNumber retval = getBalance(date, currencyNameSpace, currencyName);
+    Amount retval = getBalance(date, currencyNameSpace, currencyName);
 
     if (retval == null) {
-      retval = new FixedPointNumber();
+      retval = new Amount();
     }
 
     for (GnucashAccount child : getChildren()) {
@@ -295,12 +295,12 @@ public abstract class SimpleAccount implements GnucashAccount {
    * @return Gets the balance including all sub-accounts.
    * @see GnucashAccount#getBalanceRecursive(Date, Currency)
    */
-  public FixedPointNumber getBalanceRecursive(final LocalDate date, final Currency currency) {
+  public Amount getBalanceRecursive(final LocalDate date, final Currency currency) {
 
-    FixedPointNumber retval = getBalance(date, currency);
+    Amount retval = getBalance(date, currency);
 
     if (retval == null) {
-      retval = new FixedPointNumber();
+      retval = new Amount();
     }
 
     for (Object element : getChildren()) {
@@ -343,8 +343,8 @@ public abstract class SimpleAccount implements GnucashAccount {
    * @return null if the conversion is not possible
    * @see #getBalance(LocalDate)
    */
-  public FixedPointNumber getBalance(final LocalDate date, final String currencyNameSpace, final String currencyName) {
-    FixedPointNumber retval = getBalance(date);
+  public Amount getBalance(final LocalDate date, final String currencyNameSpace, final String currencyName) {
+    Amount retval = getBalance(date);
 
     if (retval == null) {
       LOGGER.error(bundle.getMessage("Err_SimpAccBalance"));
@@ -445,7 +445,7 @@ public abstract class SimpleAccount implements GnucashAccount {
    *
    * @see GnucashAccount#getBalance(LocalDate)
    */
-  public FixedPointNumber getBalance(final LocalDate date) {
+  public Amount getBalance(final LocalDate date) {
     return getBalance(date, (Collection<GnucashTransactionSplit>) null);
   }
 
@@ -454,8 +454,8 @@ public abstract class SimpleAccount implements GnucashAccount {
    *
    * @see GnucashAccount#getBalance(LocalDate, Collection)
    */
-  public FixedPointNumber getBalance(final LocalDate date, final Collection<GnucashTransactionSplit> after) {
-    FixedPointNumber balance = new FixedPointNumber();
+  public Amount getBalance(final LocalDate date, final Collection<GnucashTransactionSplit> after) {
+    Amount balance = new Amount();
 
     for (Object element : getTransactionSplits()) {
       GnucashTransactionSplit split = (GnucashTransactionSplit) element;
@@ -485,9 +485,9 @@ public abstract class SimpleAccount implements GnucashAccount {
   /**
    * @see GnucashAccount#getBalance(GnucashTransactionSplit)
    */
-  public FixedPointNumber getBalance(final GnucashTransactionSplit lastIncludesSplit) {
+  public Amount getBalance(final GnucashTransactionSplit lastIncludesSplit) {
 
-    FixedPointNumber balance = new FixedPointNumber();
+    Amount balance = new Amount();
 
     for (GnucashTransactionSplit split : getTransactionSplits()) {
       balance.add(split.getQuantity());

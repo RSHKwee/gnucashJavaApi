@@ -8,7 +8,7 @@ import java.util.Locale;
 
 import org.gnucash.generated.GncV2;
 import org.gnucash.generated.ObjectFactory;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashCustomer;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashGenerInvoice;
@@ -109,23 +109,23 @@ public class GnucashCustomerImpl extends GnucashObjectImpl implements GnucashCus
   /**
    * {@inheritDoc}
    */
-  public FixedPointNumber getDiscount() {
+  public Amount getDiscount() {
     if (jwsdpPeer.getCustDiscount() == null) {
       return null;
     }
 
-    return new FixedPointNumber(jwsdpPeer.getCustDiscount());
+    return new Amount(jwsdpPeer.getCustDiscount());
   }
 
   /**
    * {@inheritDoc}
    */
-  public FixedPointNumber getCredit() {
+  public Amount getCredit() {
     if (jwsdpPeer.getCustCredit() == null) {
       return null;
     }
 
-    return new FixedPointNumber(jwsdpPeer.getCustCredit());
+    return new Amount(jwsdpPeer.getCustCredit());
   }
 
   /**
@@ -214,7 +214,7 @@ public class GnucashCustomerImpl extends GnucashObjectImpl implements GnucashCus
   /**
    * @return the net sum of payments for invoices to this client
    */
-  public FixedPointNumber getIncomeGenerated(GnucashGenerInvoice.ReadVariant readVar) {
+  public Amount getIncomeGenerated(GnucashGenerInvoice.ReadVariant readVar) {
     if (readVar == GnucashGenerInvoice.ReadVariant.DIRECT) {
       return getIncomeGenerated_direct();
     } else if (readVar == GnucashGenerInvoice.ReadVariant.VIA_JOB) {
@@ -227,8 +227,8 @@ public class GnucashCustomerImpl extends GnucashObjectImpl implements GnucashCus
   /**
    * @return the net sum of payments for invoices to this client
    */
-  public FixedPointNumber getIncomeGenerated_direct() {
-    FixedPointNumber retval = new FixedPointNumber();
+  public Amount getIncomeGenerated_direct() {
+    Amount retval = new Amount();
 
     try {
       for (GnucashCustomerInvoice invcSpec : getPaidInvoices_direct()) {
@@ -250,8 +250,8 @@ public class GnucashCustomerImpl extends GnucashObjectImpl implements GnucashCus
   /**
    * @return the net sum of payments for invoices to this client
    */
-  public FixedPointNumber getIncomeGenerated_viaAllJobs() {
-    FixedPointNumber retval = new FixedPointNumber();
+  public Amount getIncomeGenerated_viaAllJobs() {
+    Amount retval = new Amount();
 
     try {
       for (GnucashJobInvoice invcSpec : getPaidInvoices_viaAllJobs()) {
@@ -293,7 +293,7 @@ public class GnucashCustomerImpl extends GnucashObjectImpl implements GnucashCus
   /**
    * @return the sum of left to pay Unpaid invoiced
    */
-  public FixedPointNumber getOutstandingValue(GnucashGenerInvoice.ReadVariant readVar) {
+  public Amount getOutstandingValue(GnucashGenerInvoice.ReadVariant readVar) {
     if (readVar == GnucashGenerInvoice.ReadVariant.DIRECT) {
       return getOutstandingValue_direct();
     } else if (readVar == GnucashGenerInvoice.ReadVariant.VIA_JOB) {
@@ -306,8 +306,8 @@ public class GnucashCustomerImpl extends GnucashObjectImpl implements GnucashCus
   /**
    * @return the sum of left to pay Unpaid invoiced
    */
-  public FixedPointNumber getOutstandingValue_direct() {
-    FixedPointNumber retval = new FixedPointNumber();
+  public Amount getOutstandingValue_direct() {
+    Amount retval = new Amount();
 
     try {
       for (GnucashCustomerInvoice invcSpec : getUnpaidInvoices_direct()) {
@@ -329,8 +329,8 @@ public class GnucashCustomerImpl extends GnucashObjectImpl implements GnucashCus
   /**
    * @return the sum of left to pay Unpaid invoiced
    */
-  public FixedPointNumber getOutstandingValue_viaAllJobs() {
-    FixedPointNumber retval = new FixedPointNumber();
+  public Amount getOutstandingValue_viaAllJobs() {
+    Amount retval = new Amount();
 
     try {
       for (GnucashJobInvoice invcSpec : getUnpaidInvoices_viaAllJobs()) {

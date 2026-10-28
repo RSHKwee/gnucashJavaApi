@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 import org.gnucash.generated.GncV2;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashGenerInvoice;
@@ -228,8 +228,8 @@ public class GnucashWritableJobInvoiceImpl extends GnucashWritableGenerInvoiceIm
   /**
    * create and add a new entry.
    */
-  public GnucashWritableJobInvoiceEntry createEntry(final GnucashAccount acct, final FixedPointNumber singleUnitPrice,
-      final FixedPointNumber quantity)
+  public GnucashWritableJobInvoiceEntry createEntry(final GnucashAccount acct, final Amount singleUnitPrice,
+      final Amount quantity)
       throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException {
     GnucashWritableJobInvoiceEntry entry = createJobInvcEntry(acct, singleUnitPrice, quantity);
     return entry;
@@ -239,8 +239,8 @@ public class GnucashWritableJobInvoiceImpl extends GnucashWritableGenerInvoiceIm
    * create and add a new entry.<br/>
    * The entry will use the accounts of the SKR03.
    */
-  public GnucashWritableJobInvoiceEntry createEntry(final GnucashAccount acct, final FixedPointNumber singleUnitPrice,
-      final FixedPointNumber quantity, final String taxTabName)
+  public GnucashWritableJobInvoiceEntry createEntry(final GnucashAccount acct, final Amount singleUnitPrice,
+      final Amount quantity, final String taxTabName)
       throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException {
     GnucashWritableJobInvoiceEntry entry = createJobInvcEntry(acct, singleUnitPrice, quantity, taxTabName);
     return entry;
@@ -251,8 +251,8 @@ public class GnucashWritableJobInvoiceImpl extends GnucashWritableGenerInvoiceIm
    *
    * @return an entry using the given Tax-Table
    */
-  public GnucashWritableJobInvoiceEntry createEntry(final GnucashAccount acct, final FixedPointNumber singleUnitPrice,
-      final FixedPointNumber quantity, final GCshTaxTable taxTab)
+  public GnucashWritableJobInvoiceEntry createEntry(final GnucashAccount acct, final Amount singleUnitPrice,
+      final Amount quantity, final GCshTaxTable taxTab)
       throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException {
     GnucashWritableJobInvoiceEntry entry = createJobInvcEntry(acct, singleUnitPrice, quantity, taxTab);
     return entry;
@@ -271,7 +271,7 @@ public class GnucashWritableJobInvoiceImpl extends GnucashWritableGenerInvoiceIm
 
   /**
    * Called by
-   * ${@link GnucashWritableJobInvoiceEntryImpl#createCustInvoiceEntry_int(GnucashWritableJobInvoiceImpl, GnucashAccount, FixedPointNumber, FixedPointNumber)}.
+   * ${@link GnucashWritableJobInvoiceEntryImpl#createCustInvoiceEntry_int(GnucashWritableJobInvoiceImpl, GnucashAccount, Amount, Amount)}.
    *
    * @param entry the entry to add to our internal list of job-invoice-entries
    */

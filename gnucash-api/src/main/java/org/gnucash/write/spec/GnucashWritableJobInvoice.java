@@ -2,7 +2,7 @@ package org.gnucash.write.spec;
 
 import java.time.LocalDate;
 
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashGenerJob;
 import org.gnucash.read.auxiliary.GCshTaxTable;
@@ -48,20 +48,20 @@ public interface GnucashWritableJobInvoice extends GnucashWritableGenerInvoice {
 
 	GnucashWritableJobInvoiceEntry createEntry(
 			GnucashAccount acct,
-			final FixedPointNumber singleUnitPrice,
-			final FixedPointNumber quantity) throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException;
+			final Amount singleUnitPrice,
+			final Amount quantity) throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException;
 
 	GnucashWritableJobInvoiceEntry createEntry(
 			GnucashAccount acct,
-			final FixedPointNumber singleUnitPrice,
-			final FixedPointNumber quantity,
+			final Amount singleUnitPrice,
+			final Amount quantity,
 			final String taxTabName)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException;
 
 	GnucashWritableJobInvoiceEntry createEntry(
 			GnucashAccount acct,
-			final FixedPointNumber singleUnitPrice,
-			final FixedPointNumber quantity,
+			final Amount singleUnitPrice,
+			final Amount quantity,
 			final GCshTaxTable taxTab)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException;
 

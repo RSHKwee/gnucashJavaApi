@@ -5,7 +5,7 @@ import java.util.Locale;
 
 import org.gnucash.generated.GncV2;
 import org.gnucash.generated.GncV2.GncBook.GncGncJob.JobOwner;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.auxiliary.GCshOwner;
 import org.gnucash.read.spec.GnucashJobInvoice;
 import org.gnucash.read.spec.WrongInvoiceTypeException;
@@ -96,7 +96,7 @@ public interface GnucashGenerJob {
      * @return the sum of payments for invoices to this client
      * @throws WrongInvoiceTypeException
      */
-    FixedPointNumber getIncomeGenerated();
+    Amount getIncomeGenerated();
 
     /**
      * @throws WrongInvoiceTypeException
@@ -116,7 +116,7 @@ public interface GnucashGenerJob {
      * @return the sum of left to pay Unpaid invoiced
      * @throws WrongInvoiceTypeException
      */
-    FixedPointNumber getOutstandingValue();
+    Amount getOutstandingValue();
 
     /**
      * @throws WrongInvoiceTypeException

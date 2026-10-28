@@ -1,6 +1,6 @@
 package org.gnucash.write.spec;
 
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.auxiliary.GCshTaxTable;
 import org.gnucash.read.impl.TaxTableNotFoundException;
 import org.gnucash.read.spec.WrongInvoiceTypeException;
@@ -21,6 +21,6 @@ public interface GnucashWritableCustomerInvoiceEntry extends GnucashWritableGene
 
 	void setPrice(String price) throws NumberFormatException, WrongInvoiceTypeException, TaxTableNotFoundException;
 
-	void setPrice(FixedPointNumber price) throws WrongInvoiceTypeException, TaxTableNotFoundException;
+	void setPrice(Amount price) throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
 }

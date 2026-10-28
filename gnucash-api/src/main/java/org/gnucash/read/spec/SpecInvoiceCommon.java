@@ -1,6 +1,6 @@
 package org.gnucash.read.spec;
 
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashGenerJob;
 import org.gnucash.read.GnucashVendor;
 
@@ -20,15 +20,15 @@ import org.gnucash.read.GnucashVendor;
  */
 public interface SpecInvoiceCommon {
 
-	FixedPointNumber getAmountUnpaidWithTaxes() throws WrongInvoiceTypeException;
+	Amount getAmountUnpaidWithTaxes() throws WrongInvoiceTypeException;
 
-	FixedPointNumber getAmountPaidWithTaxes() throws WrongInvoiceTypeException;
+	Amount getAmountPaidWithTaxes() throws WrongInvoiceTypeException;
 
-	FixedPointNumber getAmountPaidWithoutTaxes() throws WrongInvoiceTypeException;
+	Amount getAmountPaidWithoutTaxes() throws WrongInvoiceTypeException;
 
-	FixedPointNumber getAmountWithTaxes() throws WrongInvoiceTypeException;
+	Amount getAmountWithTaxes() throws WrongInvoiceTypeException;
 
-	FixedPointNumber getAmountWithoutTaxes() throws WrongInvoiceTypeException;
+	Amount getAmountWithoutTaxes() throws WrongInvoiceTypeException;
 
 	// ----------------------------
 

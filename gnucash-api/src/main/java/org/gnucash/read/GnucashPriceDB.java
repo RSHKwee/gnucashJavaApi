@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.gnucash.generated.Price;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 
 public interface GnucashPriceDB {
 	/**
@@ -20,9 +20,9 @@ public interface GnucashPriceDB {
 
 	List<String> getCommodities(String a_CommoditieSpace);
 
-	FixedPointNumber getPrice(String a_Commoditie, LocalDate d);
+	Amount getPrice(String a_Commoditie, LocalDate d);
 
-	FixedPointNumber getPrice(String a_CommoditieSpace, String a_Commodity, LocalDate d, int depth);
+	Amount getPrice(String a_CommoditieSpace, String a_Commodity, LocalDate d, int depth);
 
 	List<Price> getPrices(String a_Commoditie);
 }

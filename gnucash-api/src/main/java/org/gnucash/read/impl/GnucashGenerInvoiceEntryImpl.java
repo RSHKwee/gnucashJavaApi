@@ -14,7 +14,7 @@ import org.gnucash.generated.GncV2.GncBook.GncGncEntry.EntryITaxtable;
 import org.gnucash.generated.GncV2.GncBook.GncGncEntry.EntryInvoice;
 import org.gnucash.generated.ObjectFactory;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashGenerInvoice;
 import org.gnucash.read.GnucashGenerInvoiceEntry;
 import org.gnucash.read.GnucashGenerJob;
@@ -340,14 +340,14 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @return e.g. "0.19" for "19%"
    */
-  public FixedPointNumber getInvcApplicableTaxPercent() throws WrongInvoiceTypeException {
+  public Amount getInvcApplicableTaxPercent() throws WrongInvoiceTypeException {
 
     if (!getType().equals(GnucashGenerInvoice.TYPE_CUSTOMER) && !getType().equals(GnucashGenerInvoice.TYPE_JOB)) {
       throw new WrongInvoiceTypeException();
     }
 
     if (!isInvcTaxable()) {
-      return new FixedPointNumber();
+      return new Amount();
     }
 
     if (jwsdpPeer.getEntryITaxtable() != null) {
@@ -362,7 +362,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
       taxTab = getInvcTaxTable();
     } catch (TaxTableNotFoundException exc) {
       LOGGER.error(bundle.getMessage("Err_NoTaxEntryCustInv"));
-      return new FixedPointNumber("0");
+      return new Amount("0");
     }
 
     // ::TODO ::CHECK
@@ -384,7 +384,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
     // Instead:
     if (taxTab == null) {
       LOGGER.error(bundle.getMessage("Err_CustInvUnkTaxId", getId()));
-      return new FixedPointNumber("0");
+      return new Amount("0");
     }
 
     GCshTaxTableEntry taxTabEntr = taxTab.getEntries().iterator().next();
@@ -404,27 +404,27 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
     // ::TODO
     if (taxTabEntr.getType().equals(GCshTaxTableEntry.TYPE_VALUE)) {
       LOGGER.error(bundle.getMessage("NotImplCustInvTax", getId(), taxTabEntr.getType()));
-      return new FixedPointNumber("0");
+      return new Amount("0");
     }
 
-    FixedPointNumber val = taxTabEntr.getAmount();
+    Amount val = taxTabEntr.getAmount();
 
     // the file contains, say, 19 for 19%, we need to convert it to 0,19.
-    return ((FixedPointNumber) val.clone()).divideBy(new FixedPointNumber("100"));
+    return ((Amount) val.clone()).divideBy(new Amount("100"));
 
   }
 
   /**
    * @return e.g. "0.19" for "19%"
    */
-  public FixedPointNumber getBillApplicableTaxPercent() throws WrongInvoiceTypeException {
+  public Amount getBillApplicableTaxPercent() throws WrongInvoiceTypeException {
 
     if (!getType().equals(GnucashGenerInvoice.TYPE_VENDOR) && !getType().equals(GnucashGenerInvoice.TYPE_JOB)) {
       throw new WrongInvoiceTypeException();
     }
 
     if (!isBillTaxable()) {
-      return new FixedPointNumber();
+      return new Amount();
     }
 
     if (jwsdpPeer.getEntryBTaxtable() != null) {
@@ -438,13 +438,13 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
       taxTab = getBillTaxTable();
     } catch (TaxTableNotFoundException exc) {
       LOGGER.error(bundle.getMessage("Err_VendBillNoTaxId", getId()));
-      return new FixedPointNumber("0");
+      return new Amount("0");
     }
 
     // Cf. getInvcApplicableTaxPercent()
     if (taxTab == null) {
       LOGGER.error(bundle.getMessage("Err_VendBillNoTaxId", getId()));
-      return new FixedPointNumber("0");
+      return new Amount("0");
     }
 
     GCshTaxTableEntry taxTabEntr = taxTab.getEntries().iterator().next();
@@ -453,17 +453,17 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
     // ::TODO
     if (taxTabEntr.getType().equals(GCshTaxTableEntry.TYPE_VALUE)) {
       LOGGER.error(bundle.getMessage("NotImplVendBillTax", getId(), taxTabEntr.getType()));
-      return new FixedPointNumber("0");
+      return new Amount("0");
     }
 
-    FixedPointNumber val = taxTabEntr.getAmount();
+    Amount val = taxTabEntr.getAmount();
 
     // the file contains, say, 19 for 19%, we need to convert it to 0,19.
-    return ((FixedPointNumber) val.clone()).divideBy(new FixedPointNumber("100"));
+    return ((Amount) val.clone()).divideBy(new Amount("100"));
 
   }
 
-  public FixedPointNumber getJobApplicableTaxPercent() throws WrongInvoiceTypeException {
+  public Amount getJobApplicableTaxPercent() throws WrongInvoiceTypeException {
 
     if (!getType().equals(GnucashGenerInvoice.TYPE_JOB)) {
       throw new WrongInvoiceTypeException();
@@ -486,7 +486,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
    * @return never null, "0%" if no taxtable is there
    */
   public String getInvcApplicableTaxPercentFormatted() throws WrongInvoiceTypeException {
-    FixedPointNumber applTaxPerc = getInvcApplicableTaxPercent();
+    Amount applTaxPerc = getInvcApplicableTaxPercent();
     if (applTaxPerc == null) {
       return this.getPercentFormat().format(0);
     }
@@ -497,7 +497,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
    * @return never null, "0%" if no taxtable is there
    */
   public String getBillApplicableTaxPercentFormatted() throws WrongInvoiceTypeException {
-    FixedPointNumber applTaxPerc = getBillApplicableTaxPercent();
+    Amount applTaxPerc = getBillApplicableTaxPercent();
     if (applTaxPerc == null) {
       return this.getPercentFormat().format(0);
     }
@@ -508,7 +508,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
    * @return never null, "0%" if no taxtable is there
    */
   public String getJobApplicableTaxPercentFormatted() throws WrongInvoiceTypeException {
-    FixedPointNumber applTaxPerc = getJobApplicableTaxPercent();
+    Amount applTaxPerc = getJobApplicableTaxPercent();
     if (applTaxPerc == null) {
       return this.getPercentFormat().format(0);
     }
@@ -520,29 +520,29 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @see GnucashGenerInvoiceEntry#getInvcPrice()
    */
-  public FixedPointNumber getInvcPrice() throws WrongInvoiceTypeException {
+  public Amount getInvcPrice() throws WrongInvoiceTypeException {
     if (!getType().equals(GnucashGenerInvoice.TYPE_CUSTOMER) && !getType().equals(GnucashGenerInvoice.TYPE_JOB)) {
       throw new WrongInvoiceTypeException();
     }
 
-    return new FixedPointNumber(jwsdpPeer.getEntryIPrice());
+    return new Amount(jwsdpPeer.getEntryIPrice());
   }
 
   /**
    * @see GnucashGenerInvoiceEntry#getInvcPrice()
    */
-  public FixedPointNumber getBillPrice() throws WrongInvoiceTypeException {
+  public Amount getBillPrice() throws WrongInvoiceTypeException {
     if (!getType().equals(GnucashGenerInvoice.TYPE_VENDOR) && !getType().equals(GnucashGenerInvoice.TYPE_JOB)) {
       throw new WrongInvoiceTypeException();
     }
 
-    return new FixedPointNumber(jwsdpPeer.getEntryBPrice());
+    return new Amount(jwsdpPeer.getEntryBPrice());
   }
 
   /**
    * @see GnucashGenerInvoiceEntry#getInvcPrice()
    */
-  public FixedPointNumber getJobPrice() throws WrongInvoiceTypeException {
+  public Amount getJobPrice() throws WrongInvoiceTypeException {
     if (!getType().equals(GnucashGenerInvoice.TYPE_JOB)) {
       throw new WrongInvoiceTypeException();
     }
@@ -586,14 +586,14 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @see GnucashGenerInvoiceEntry#getInvcSum()
    */
-  public FixedPointNumber getInvcSum() throws WrongInvoiceTypeException {
+  public Amount getInvcSum() throws WrongInvoiceTypeException {
     return getInvcPrice().multiply(getQuantity());
   }
 
   /**
    * @see GnucashGenerInvoiceEntry#getInvcSumInclTaxes()
    */
-  public FixedPointNumber getInvcSumInclTaxes() throws WrongInvoiceTypeException {
+  public Amount getInvcSumInclTaxes() throws WrongInvoiceTypeException {
     if (jwsdpPeer.getEntryITaxincluded() == 1) {
       return getInvcSum();
     }
@@ -604,7 +604,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @see GnucashGenerInvoiceEntry#getInvcSumExclTaxes()
    */
-  public FixedPointNumber getInvcSumExclTaxes() throws WrongInvoiceTypeException {
+  public Amount getInvcSumExclTaxes() throws WrongInvoiceTypeException {
 
     // System.err.println("debug: GnucashInvoiceEntryImpl.getSumExclTaxes():"
     // taxIncluded="+jwsdpPeer.getEntryITaxincluded()+" getSum()="+getSum()+"
@@ -645,14 +645,14 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @see GnucashGenerInvoiceEntry#getInvcSum()
    */
-  public FixedPointNumber getBillSum() throws WrongInvoiceTypeException {
+  public Amount getBillSum() throws WrongInvoiceTypeException {
     return getBillPrice().multiply(getQuantity());
   }
 
   /**
    * @see GnucashGenerInvoiceEntry#getInvcSumInclTaxes()
    */
-  public FixedPointNumber getBillSumInclTaxes() throws WrongInvoiceTypeException {
+  public Amount getBillSumInclTaxes() throws WrongInvoiceTypeException {
     if (jwsdpPeer.getEntryBTaxincluded() == 1) {
       return getBillSum();
     }
@@ -663,7 +663,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @see GnucashGenerInvoiceEntry#getInvcSumExclTaxes()
    */
-  public FixedPointNumber getBillSumExclTaxes() throws WrongInvoiceTypeException {
+  public Amount getBillSumExclTaxes() throws WrongInvoiceTypeException {
 
     // System.err.println("debug: GnucashInvoiceEntryImpl.getSumExclTaxes():"
     // taxIncluded="+jwsdpPeer.getEntryITaxincluded()+" getSum()="+getSum()+"
@@ -704,7 +704,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @see GnucashGenerInvoiceEntry#getInvcSum()
    */
-  public FixedPointNumber getJobSum() throws WrongInvoiceTypeException {
+  public Amount getJobSum() throws WrongInvoiceTypeException {
     if (!getType().equals(GnucashGenerInvoice.TYPE_JOB)) {
       throw new WrongInvoiceTypeException();
     }
@@ -722,7 +722,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @see GnucashGenerInvoiceEntry#getInvcSumInclTaxes()
    */
-  public FixedPointNumber getJobSumInclTaxes() throws WrongInvoiceTypeException {
+  public Amount getJobSumInclTaxes() throws WrongInvoiceTypeException {
     if (!getType().equals(GnucashGenerInvoice.TYPE_JOB)) {
       throw new WrongInvoiceTypeException();
     }
@@ -740,7 +740,7 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @see GnucashGenerInvoiceEntry#getInvcSumExclTaxes()
    */
-  public FixedPointNumber getJobSumExclTaxes() throws WrongInvoiceTypeException {
+  public Amount getJobSumExclTaxes() throws WrongInvoiceTypeException {
     if (!getType().equals(GnucashGenerInvoice.TYPE_JOB)) {
       throw new WrongInvoiceTypeException();
     }
@@ -830,9 +830,9 @@ public class GnucashGenerInvoiceEntryImpl extends GnucashObjectImpl implements G
   /**
    * @see GnucashGenerInvoiceEntry#getQuantity()
    */
-  public FixedPointNumber getQuantity() {
+  public Amount getQuantity() {
     String val = getJwsdpPeer().getEntryQty();
-    return new FixedPointNumber(val);
+    return new Amount(val);
   }
 
   /**

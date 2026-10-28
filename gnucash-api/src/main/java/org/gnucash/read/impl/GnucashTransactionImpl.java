@@ -20,7 +20,7 @@ import org.gnucash.generated.Slot;
 import org.gnucash.generated.SlotValue;
 import org.gnucash.generated.SlotsType;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashGenerInvoice;
@@ -154,7 +154,7 @@ public class GnucashTransactionImpl extends GnucashObjectImpl implements Gnucash
    */
   public boolean isBalanced() {
 
-    return getBalance().equals(new FixedPointNumber());
+    return getBalance().equals(new Amount());
 
   }
 
@@ -179,9 +179,9 @@ public class GnucashTransactionImpl extends GnucashObjectImpl implements Gnucash
    * @return the balance of the sum of all splits
    * @see GnucashTransaction#getBalance()
    */
-  public FixedPointNumber getBalance() {
+  public Amount getBalance() {
 
-    FixedPointNumber fp = new FixedPointNumber();
+    Amount fp = new Amount();
 
     for (GnucashTransactionSplit split : getSplits()) {
       fp.add(split.getValue());
@@ -222,8 +222,8 @@ public class GnucashTransactionImpl extends GnucashObjectImpl implements Gnucash
    * @throws NumberFormatException if the input is not valid
    * @see GnucashTransaction#getNegatedBalance()
    */
-  public FixedPointNumber getNegatedBalance() throws NumberFormatException {
-    return getBalance().multiply(new FixedPointNumber("-100/100"));
+  public Amount getNegatedBalance() throws NumberFormatException {
+    return getBalance().multiply(new Amount("-100/100"));
   }
 
   /**

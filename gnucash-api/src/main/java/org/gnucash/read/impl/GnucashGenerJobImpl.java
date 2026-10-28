@@ -7,7 +7,7 @@ import java.util.Locale;
 import org.gnucash.Const;
 import org.gnucash.generated.GncV2;
 import org.gnucash.generated.GncV2.GncBook.GncGncJob.JobOwner;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashCustomer;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashGenerJob;
@@ -146,8 +146,8 @@ public class GnucashGenerJobImpl implements GnucashGenerJob {
   /**
    * {@inheritDoc}
    */
-  public FixedPointNumber getIncomeGenerated() {
-    FixedPointNumber retval = new FixedPointNumber();
+  public Amount getIncomeGenerated() {
+    Amount retval = new Amount();
 
     try {
       for (GnucashJobInvoice invcSpec : getPaidInvoices()) {
@@ -183,8 +183,8 @@ public class GnucashGenerJobImpl implements GnucashGenerJob {
   /**
    * {@inheritDoc}
    */
-  public FixedPointNumber getOutstandingValue() {
-    FixedPointNumber retval = new FixedPointNumber();
+  public Amount getOutstandingValue() {
+    Amount retval = new Amount();
 
     try {
       for (GnucashJobInvoice invcSpec : getUnpaidInvoices()) {

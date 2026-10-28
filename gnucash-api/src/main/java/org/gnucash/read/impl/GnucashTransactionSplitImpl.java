@@ -9,7 +9,7 @@ import org.gnucash.currency.CurrencyNameSpace;
 import org.gnucash.generated.GncTransaction;
 import org.gnucash.generated.ObjectFactory;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashGenerInvoice;
 import org.gnucash.read.GnucashTransaction;
@@ -155,8 +155,8 @@ public class GnucashTransactionSplitImpl extends GnucashObjectImpl implements Gn
   /**
    * @see GnucashTransactionSplit#getValue()
    */
-  public FixedPointNumber getValue() {
-    return new FixedPointNumber(jwsdpPeer.getSplitValue());
+  public Amount getValue() {
+    return new Amount(jwsdpPeer.getSplitValue());
   }
 
   /**
@@ -214,7 +214,7 @@ public class GnucashTransactionSplitImpl extends GnucashObjectImpl implements Gn
   /**
    * @see GnucashTransactionSplit#getAccountBalance()
    */
-  public FixedPointNumber getAccountBalance() {
+  public Amount getAccountBalance() {
     return getAccount().getBalance(this);
   }
 
@@ -235,8 +235,8 @@ public class GnucashTransactionSplitImpl extends GnucashObjectImpl implements Gn
   /**
    * @see GnucashTransactionSplit#getQuantity()
    */
-  public FixedPointNumber getQuantity() {
-    return new FixedPointNumber(jwsdpPeer.getSplitQuantity());
+  public Amount getQuantity() {
+    return new Amount(jwsdpPeer.getSplitQuantity());
   }
 
   /**

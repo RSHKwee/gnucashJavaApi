@@ -1,6 +1,6 @@
 package org.gnucash.read.auxiliary;
 
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 
 public interface GCshBillTermsDays {
 
@@ -8,6 +8,6 @@ public interface GCshBillTermsDays {
 
 	Integer getDiscountDays();
 
-	FixedPointNumber getDiscount();
+	Amount getDiscount();
 
 }

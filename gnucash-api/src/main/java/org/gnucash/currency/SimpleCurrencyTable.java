@@ -6,7 +6,7 @@ import java.util.Currency;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 
 /**
  * A CurrencyTable holds the translations from some currencies to one base-currency of one specfic point in time
@@ -38,24 +38,24 @@ public class SimpleCurrencyTable implements Serializable {
 	 */
 	public SimpleCurrencyTable() {
 		super();
-		setConversionFactor("EUR", new FixedPointNumber(1));
+		setConversionFactor("EUR", new Amount(1));
 		// setConversionFactor("GBP", new FixedPointNumber("769/523"));
 	}
 
 	/**
-	 * maps a currency-name in capital letters(e.g. "GBP") to a factor {@link FixedPointNumber} that is to be multiplied
+	 * maps a currency-name in capital letters(e.g. "GBP") to a factor {@link Amount} that is to be multiplied
 	 * with an amount of that currency to get the value in the base-currency.
 	 *
 	 * @see {@link #getConversionFactor(String)}
 	 */
-	private Map<String, FixedPointNumber> mIso4217CurrencyCodes2Factor = new Hashtable<String, FixedPointNumber>();
+	private Map<String, Amount> mIso4217CurrencyCodes2Factor = new Hashtable<String, Amount>();
 
 	/**
 	 * @param iso4217CurrencyCode a currency-name in capital letters(e.g. "GBP")
-	 * @return a factor {@link FixedPointNumber} that is to be multiplied with an amount of that currency to get the value
+	 * @return a factor {@link Amount} that is to be multiplied with an amount of that currency to get the value
 	 * in the base-currency.
 	 */
-	public FixedPointNumber getConversionFactor(final String iso4217CurrencyCode) {
+	public Amount getConversionFactor(final String iso4217CurrencyCode) {
 		return mIso4217CurrencyCodes2Factor.get(iso4217CurrencyCode);
 	}
 
@@ -68,10 +68,10 @@ public class SimpleCurrencyTable implements Serializable {
 
 	/**
 	 * @param iso4217CurrencyCode a currency-name in capital letters(e.g. "GBP")
-	 * @param factor              a factor {@link FixedPointNumber} that is to be multiplied with an amount of that
+	 * @param factor              a factor {@link Amount} that is to be multiplied with an amount of that
 	 *                            currency to get the value in the base-currency.
 	 */
-	public void setConversionFactor(final String iso4217CurrencyCode, final FixedPointNumber factor) {
+	public void setConversionFactor(final String iso4217CurrencyCode, final Amount factor) {
 		mIso4217CurrencyCodes2Factor.put(iso4217CurrencyCode, factor);
 	}
 
@@ -80,8 +80,8 @@ public class SimpleCurrencyTable implements Serializable {
 	 * @param iso4217CurrencyCode it's currency
 	 * @return false if the conversion is not possible
 	 */
-	public boolean convertToBaseCurrency(final FixedPointNumber value, final String iso4217CurrencyCode) {
-		FixedPointNumber factor = getConversionFactor(iso4217CurrencyCode);
+	public boolean convertToBaseCurrency(final Amount value, final String iso4217CurrencyCode) {
+		Amount factor = getConversionFactor(iso4217CurrencyCode);
 		if (factor == null) {
 			return false;
 		}
@@ -94,8 +94,8 @@ public class SimpleCurrencyTable implements Serializable {
 	 * @param iso4217CurrencyCode the currency to convert to
 	 * @return false if the conversion is not possible
 	 */
-	public boolean convertFromBaseCurrency(final FixedPointNumber value, final String iso4217CurrencyCode) {
-		FixedPointNumber factor = getConversionFactor(iso4217CurrencyCode);
+	public boolean convertFromBaseCurrency(final Amount value, final String iso4217CurrencyCode) {
+		Amount factor = getConversionFactor(iso4217CurrencyCode);
 		if (factor == null) {
 			return false;
 		}
@@ -108,7 +108,7 @@ public class SimpleCurrencyTable implements Serializable {
 	 * @param pCurrency the currency to convert to
 	 * @return false if the conversion is not possible
 	 */
-	public boolean convertToBaseCurrency(final FixedPointNumber value, final Currency pCurrency) {
+	public boolean convertToBaseCurrency(final Amount value, final Currency pCurrency) {
 		return convertFromBaseCurrency(value, pCurrency.getCurrencyCode());
 	}
 

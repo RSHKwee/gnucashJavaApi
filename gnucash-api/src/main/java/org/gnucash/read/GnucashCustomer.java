@@ -3,7 +3,7 @@ package org.gnucash.read;
 import java.util.Collection;
 import java.util.Locale;
 
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.auxiliary.GCshAddress;
 import org.gnucash.read.auxiliary.GCshBillTerms;
 import org.gnucash.read.auxiliary.GCshTaxTable;
@@ -59,12 +59,12 @@ public interface GnucashCustomer extends GnucashObject {
 	/**
 	 * @return The customer-specific discount
 	 */
-	FixedPointNumber getDiscount();
+	Amount getDiscount();
 
 	/**
 	 * @return the customer-specific credit
 	 */
-	FixedPointNumber getCredit();
+	Amount getCredit();
 
 	/**
 	 * @return user-defined notes about the customer (may be null)
@@ -118,17 +118,17 @@ public interface GnucashCustomer extends GnucashObject {
 	/**
 	 * @return the sum of payments for invoices to this client
 	 */
-	FixedPointNumber getIncomeGenerated(GnucashGenerInvoice.ReadVariant readVar);
+	Amount getIncomeGenerated(GnucashGenerInvoice.ReadVariant readVar);
 
 	/**
 	 * @return the sum of payments for invoices to this client
 	 */
-	FixedPointNumber getIncomeGenerated_direct();
+	Amount getIncomeGenerated_direct();
 
 	/**
 	 * @return the sum of payments for invoices to this client
 	 */
-	FixedPointNumber getIncomeGenerated_viaAllJobs();
+	Amount getIncomeGenerated_viaAllJobs();
 
 	/**
 	 * @see #getIncomeGenerated() Formatted acording to the current locale's
@@ -147,17 +147,17 @@ public interface GnucashCustomer extends GnucashObject {
 	/**
 	 * @return the sum of left to pay Unpaid invoiced
 	 */
-	FixedPointNumber getOutstandingValue(GnucashGenerInvoice.ReadVariant readVar);
+	Amount getOutstandingValue(GnucashGenerInvoice.ReadVariant readVar);
 
 	/**
 	 * @return the sum of left to pay Unpaid invoiced
 	 */
-	FixedPointNumber getOutstandingValue_direct();
+	Amount getOutstandingValue_direct();
 
 	/**
 	 * @return the sum of left to pay Unpaid invoiced
 	 */
-	FixedPointNumber getOutstandingValue_viaAllJobs();
+	Amount getOutstandingValue_viaAllJobs();
 
 	/**
 	 * @see #getOutstandingValue() Formatted acording to the current locale's

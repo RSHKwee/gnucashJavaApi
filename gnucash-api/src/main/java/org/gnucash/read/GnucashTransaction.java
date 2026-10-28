@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.gnucash.generated.GncTransaction;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.impl.SplitNotFoundException;
 
 /**
@@ -131,7 +131,7 @@ public interface GnucashTransaction extends Comparable<GnucashTransaction> {
 	 * @return the sum of all splits
 	 * @see #isBalanced()
 	 */
-	FixedPointNumber getBalance();
+	Amount getBalance();
 
 	/**
 	 * The result is in the currency of the transaction.
@@ -154,7 +154,7 @@ public interface GnucashTransaction extends Comparable<GnucashTransaction> {
 	 * @return the sum of all splits
 	 * @see #isBalanced()
 	 */
-	FixedPointNumber getNegatedBalance();
+	Amount getNegatedBalance();
 
 	/**
 	 * The result is in the currency of the transaction.

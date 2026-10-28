@@ -5,7 +5,7 @@ import java.text.ParseException;
 import org.gnucash.Const;
 import org.gnucash.generated.GncTransaction;
 import org.gnucash.generated.ObjectFactory;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashTransactionSplit;
 import org.gnucash.read.IllegalTransactionSplitActionException;
@@ -176,16 +176,16 @@ public class GnucashWritableTransactionSplitImpl extends GnucashTransactionSplit
 	}
 
 	/**
-	 * @see GnucashWritableTransactionSplit#setQuantity(FixedPointNumber)
+	 * @see GnucashWritableTransactionSplit#setQuantity(Amount)
 	 */
 	public void setQuantity(final String n) {
 		try {
-			this.setQuantity(new FixedPointNumber(n.toLowerCase().replaceAll("&euro;", "").replaceAll("&pound;", "")));
+			this.setQuantity(new Amount(n.toLowerCase().replaceAll("&euro;", "").replaceAll("&pound;", "")));
 		}
 		catch (NumberFormatException e) {
 			try {
 				Number parsed = this.getQuantityCurrencyFormat().parse(n);
-				this.setQuantity(new FixedPointNumber(parsed.toString()));
+				this.setQuantity(new Amount(parsed.toString()));
 			}
 			catch (NumberFormatException e1) {
 				throw e;
@@ -223,9 +223,9 @@ public class GnucashWritableTransactionSplitImpl extends GnucashTransactionSplit
 	}
 
 	/**
-	 * @see GnucashWritableTransactionSplit#setQuantity(FixedPointNumber)
+	 * @see GnucashWritableTransactionSplit#setQuantity(Amount)
 	 */
-	public void setQuantity(final FixedPointNumber n) {
+	public void setQuantity(final Amount n) {
 		if (n == null) {
 			throw new NullPointerException("null quantity given");
 		}
@@ -238,29 +238,29 @@ public class GnucashWritableTransactionSplitImpl extends GnucashTransactionSplit
 			getJwsdpPeer().setSplitValue(n.toGnucashString());
 			if (old == null || !old.equals(n.toGnucashString())) {
 				if (getPropertyChangeSupport() != null) {
-					getPropertyChangeSupport().firePropertyChange("value", new FixedPointNumber(oldvalue), n);
+					getPropertyChangeSupport().firePropertyChange("value", new Amount(oldvalue), n);
 				}
 			}
 		}
 
 		if (old == null || !old.equals(n.toGnucashString())) {
 			if (getPropertyChangeSupport() != null) {
-				getPropertyChangeSupport().firePropertyChange("quantity", new FixedPointNumber(old), n);
+				getPropertyChangeSupport().firePropertyChange("quantity", new Amount(old), n);
 			}
 		}
 	}
 
 	/**
-	 * @see GnucashWritableTransactionSplit#setValue(FixedPointNumber)
+	 * @see GnucashWritableTransactionSplit#setValue(Amount)
 	 */
 	public void setValue(final String n) {
 		try {
-			this.setValue(new FixedPointNumber(n.toLowerCase().replaceAll("&euro;", "").replaceAll("&pound;", "")));
+			this.setValue(new Amount(n.toLowerCase().replaceAll("&euro;", "").replaceAll("&pound;", "")));
 		}
 		catch (NumberFormatException e) {
 			try {
 				Number parsed = this.getValueCurrencyFormat().parse(n);
-				this.setValue(new FixedPointNumber(parsed.toString()));
+				this.setValue(new Amount(parsed.toString()));
 			}
 			catch (NumberFormatException e1) {
 				throw e;
@@ -272,9 +272,9 @@ public class GnucashWritableTransactionSplitImpl extends GnucashTransactionSplit
 	}
 
 	/**
-	 * @see GnucashWritableTransactionSplit#setValue(FixedPointNumber)
+	 * @see GnucashWritableTransactionSplit#setValue(Amount)
 	 */
-	public void setValue(final FixedPointNumber n) {
+	public void setValue(final Amount n) {
 		if (n == null) {
 			throw new NullPointerException("null value given");
 		}
@@ -286,14 +286,14 @@ public class GnucashWritableTransactionSplitImpl extends GnucashTransactionSplit
 			getJwsdpPeer().setSplitQuantity(n.toGnucashString());
 			if (old == null || !old.equals(n.toGnucashString())) {
 				if (getPropertyChangeSupport() != null) {
-					getPropertyChangeSupport().firePropertyChange("quantity", new FixedPointNumber(oldquantity), n);
+					getPropertyChangeSupport().firePropertyChange("quantity", new Amount(oldquantity), n);
 				}
 			}
 		}
 
 		if (old == null || !old.equals(n.toGnucashString())) {
 			if (getPropertyChangeSupport() != null) {
-				getPropertyChangeSupport().firePropertyChange("value", new FixedPointNumber(old), n);
+				getPropertyChangeSupport().firePropertyChange("value", new Amount(old), n);
 			}
 		}
 	}

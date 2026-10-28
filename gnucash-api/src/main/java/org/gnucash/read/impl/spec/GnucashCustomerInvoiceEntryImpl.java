@@ -1,7 +1,7 @@
 package org.gnucash.read.impl.spec;
 
 import org.gnucash.generated.GncV2;
-import org.gnucash.numbers.FixedPointNumber;
+import org.gnucash.numbers.Amount;
 import org.gnucash.read.GnucashGenerInvoice;
 import org.gnucash.read.GnucashGenerInvoiceEntry;
 import org.gnucash.read.impl.GnucashGenerInvoiceEntryImpl;
@@ -81,7 +81,7 @@ public class GnucashCustomerInvoiceEntryImpl extends GnucashGenerInvoiceEntryImp
 	// ---------------------------------------------------------------
 
 	@Override
-	public FixedPointNumber getPrice() throws WrongInvoiceTypeException {
+	public Amount getPrice() throws WrongInvoiceTypeException {
 		return getInvcPrice();
 	}
 
@@ -93,7 +93,7 @@ public class GnucashCustomerInvoiceEntryImpl extends GnucashGenerInvoiceEntryImp
 	// ---------------------------------------------------------------
 
 	@Override
-	public FixedPointNumber getBillPrice() throws WrongInvoiceTypeException {
+	public Amount getBillPrice() throws WrongInvoiceTypeException {
 		throw new WrongInvoiceTypeException();
 	}
 
@@ -105,7 +105,7 @@ public class GnucashCustomerInvoiceEntryImpl extends GnucashGenerInvoiceEntryImp
 	// ------------------------------
 
 	@Override
-	public FixedPointNumber getJobPrice() throws WrongInvoiceTypeException {
+	public Amount getJobPrice() throws WrongInvoiceTypeException {
 		throw new WrongInvoiceTypeException();
 	}
 
