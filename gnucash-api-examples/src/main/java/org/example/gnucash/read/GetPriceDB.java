@@ -8,7 +8,7 @@ import java.util.List;
 import org.gnucash.Const;
 import org.gnucash.generated.GncPricedb;
 import org.gnucash.generated.Price;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.impl.GnucashFileImpl;
 import org.gnucash.read.impl.GnucashPriceDBImpl;
 
@@ -58,7 +58,7 @@ public class GetPriceDB {
 		// DateTimeFormatter formatter = new DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
 		LocalDate parsedDate = LocalDate.parse(dateString, formatter);
-		Amount pr = pdb.getPrice("SAP", parsedDate);
+		FixedPointNumber pr = pdb.getPrice("SAP", parsedDate);
 		System.out.println(dateString + " " + pr.toString());
 
 		dateString = "2012-03-05" + " " + stime;

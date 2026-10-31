@@ -2,7 +2,7 @@ package org.gnucash.write;
 
 import java.time.LocalDate;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashCustomer;
 import org.gnucash.read.GnucashGenerInvoice;
@@ -101,8 +101,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableGenerInvoiceEntry createGenerEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity) throws WrongInvoiceTypeException, TaxTableNotFoundException;
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity) throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
 	// ----------------------------
 
@@ -112,8 +112,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableCustomerInvoiceEntry createCustInvcEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity)
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
 	/**
@@ -122,8 +122,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableCustomerInvoiceEntry createCustInvcEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity,
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity,
 			final String taxTabName)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
@@ -134,8 +134,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableCustomerInvoiceEntry createCustInvcEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity,
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity,
 			final GCshTaxTable taxTab)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
@@ -147,8 +147,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableVendorBillEntry createVendBillEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity)
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
 	/**
@@ -157,8 +157,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableVendorBillEntry createVendBillEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity,
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity,
 			final String taxTabName)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
@@ -169,8 +169,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableVendorBillEntry createVendBillEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity,
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity,
 			final GCshTaxTable taxTab)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
@@ -182,8 +182,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableJobInvoiceEntry createJobInvcEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity)
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException;
 
 	/**
@@ -192,8 +192,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableJobInvoiceEntry createJobInvcEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity,
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity,
 			final String taxTabName)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException;
 
@@ -204,8 +204,8 @@ public interface GnucashWritableGenerInvoice extends GnucashGenerInvoice {
 	 */
 	GnucashWritableJobInvoiceEntry createJobInvcEntry(
 			final GnucashAccount acct,
-			final Amount singleUnitPrice,
-			final Amount quantity,
+			final FixedPointNumber singleUnitPrice,
+			final FixedPointNumber quantity,
 			final GCshTaxTable taxTab)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException;
 }

@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 import org.gnucash.generated.GncV2;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashGenerInvoice;
@@ -214,8 +214,8 @@ public class GnucashWritableVendorBillImpl extends GnucashWritableGenerInvoiceIm
   /**
    * create and add a new entry.
    */
-  public GnucashWritableVendorBillEntry createEntry(final GnucashAccount acct, final Amount singleUnitPrice,
-      final Amount quantity) throws WrongInvoiceTypeException, TaxTableNotFoundException {
+  public GnucashWritableVendorBillEntry createEntry(final GnucashAccount acct, final FixedPointNumber singleUnitPrice,
+      final FixedPointNumber quantity) throws WrongInvoiceTypeException, TaxTableNotFoundException {
     GnucashWritableVendorBillEntry entry = createVendBillEntry(acct, singleUnitPrice, quantity);
     return entry;
   }
@@ -224,8 +224,8 @@ public class GnucashWritableVendorBillImpl extends GnucashWritableGenerInvoiceIm
    * create and add a new entry.<br/>
    * The entry will use the accounts of the SKR03.
    */
-  public GnucashWritableVendorBillEntry createEntry(final GnucashAccount acct, final Amount singleUnitPrice,
-      final Amount quantity, final String taxTabName)
+  public GnucashWritableVendorBillEntry createEntry(final GnucashAccount acct, final FixedPointNumber singleUnitPrice,
+      final FixedPointNumber quantity, final String taxTabName)
       throws WrongInvoiceTypeException, TaxTableNotFoundException {
     GnucashWritableVendorBillEntry entry = createVendBillEntry(acct, singleUnitPrice, quantity, taxTabName);
     return entry;
@@ -236,8 +236,8 @@ public class GnucashWritableVendorBillImpl extends GnucashWritableGenerInvoiceIm
    *
    * @return an entry using the given Tax-Table
    */
-  public GnucashWritableVendorBillEntry createEntry(final GnucashAccount acct, final Amount singleUnitPrice,
-      final Amount quantity, final GCshTaxTable taxTab)
+  public GnucashWritableVendorBillEntry createEntry(final GnucashAccount acct, final FixedPointNumber singleUnitPrice,
+      final FixedPointNumber quantity, final GCshTaxTable taxTab)
       throws WrongInvoiceTypeException, TaxTableNotFoundException {
     GnucashWritableVendorBillEntry entry = createVendBillEntry(acct, singleUnitPrice, quantity, taxTab);
     return entry;
@@ -256,7 +256,7 @@ public class GnucashWritableVendorBillImpl extends GnucashWritableGenerInvoiceIm
 
   /**
    * Called by
-   * ${@link GnucashWritableVendorBillEntryImpl#createVendBillEntry_int(GnucashWritableGenerInvoiceImpl, GnucashAccount, Amount, Amount)}.
+   * ${@link GnucashWritableVendorBillEntryImpl#createVendBillEntry_int(GnucashWritableGenerInvoiceImpl, GnucashAccount, FixedPointNumber, FixedPointNumber)}.
    *
    * @param entry the entry to add to our internal list of vendor-bill-entries
    */

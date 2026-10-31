@@ -2,7 +2,7 @@ package org.gnucash.write;
 
 import java.time.LocalDate;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashGenerInvoiceEntry;
 import org.gnucash.read.GnucashObject;
 import org.gnucash.read.auxiliary.GCshTaxTable;
@@ -33,7 +33,7 @@ public interface GnucashWritableGenerInvoiceEntry extends GnucashGenerInvoiceEnt
 
 	void setInvcPrice(String price) throws NumberFormatException, WrongInvoiceTypeException, TaxTableNotFoundException;
 
-	void setInvcPrice(Amount price) throws WrongInvoiceTypeException, TaxTableNotFoundException;
+	void setInvcPrice(FixedPointNumber price) throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
 	void setInvcPriceFormatted(String price) throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
@@ -41,7 +41,7 @@ public interface GnucashWritableGenerInvoiceEntry extends GnucashGenerInvoiceEnt
 
 	void setBillPrice(String price) throws NumberFormatException, WrongInvoiceTypeException, TaxTableNotFoundException;
 
-	void setBillPrice(Amount price) throws WrongInvoiceTypeException, TaxTableNotFoundException;
+	void setBillPrice(FixedPointNumber price) throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
 	void setBillPriceFormatted(String price) throws NumberFormatException, WrongInvoiceTypeException, TaxTableNotFoundException;
 
@@ -50,7 +50,7 @@ public interface GnucashWritableGenerInvoiceEntry extends GnucashGenerInvoiceEnt
 	void setJobPrice(String price)
 			throws NumberFormatException, WrongInvoiceTypeException, TaxTableNotFoundException, UnknownInvoiceTypeException;
 
-	void setJobPrice(Amount price)
+	void setJobPrice(FixedPointNumber price)
 			throws WrongInvoiceTypeException, TaxTableNotFoundException, NumberFormatException, UnknownInvoiceTypeException;
 
 	void setJobPriceFormatted(String price)
@@ -62,7 +62,7 @@ public interface GnucashWritableGenerInvoiceEntry extends GnucashGenerInvoiceEnt
 
 	void setQuantity(String quantity) throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
-	void setQuantity(Amount quantity) throws WrongInvoiceTypeException, TaxTableNotFoundException;
+	void setQuantity(FixedPointNumber quantity) throws WrongInvoiceTypeException, TaxTableNotFoundException;
 
 	void setQuantityFormatted(String n) throws WrongInvoiceTypeException, TaxTableNotFoundException;
 

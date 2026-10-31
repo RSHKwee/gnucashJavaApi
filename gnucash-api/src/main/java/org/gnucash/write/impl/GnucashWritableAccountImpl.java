@@ -17,7 +17,7 @@ import org.gnucash.generated.ObjectFactory;
 import org.gnucash.generated.Slot;
 import org.gnucash.generated.SlotValue;
 import org.gnucash.generated.SlotsType;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashTransactionSplit;
@@ -302,7 +302,7 @@ public class GnucashWritableAccountImpl extends GnucashAccountImpl implements Gn
 	/**
 	 * Used by ${@link #getBalance()} to cache the result.
 	 */
-	private Amount myBalanceCached = null;
+	private FixedPointNumber myBalanceCached = null;
 
 	/**
 	 * Used by ${@link #getBalance()} to cache the result.
@@ -318,14 +318,14 @@ public class GnucashWritableAccountImpl extends GnucashAccountImpl implements Gn
 	 * @see #getBalance(LocalDate)
 	 */
 	@Override
-	public Amount getBalance() {
+	public FixedPointNumber getBalance() {
 
 		if (myBalanceCached != null) {
 			return myBalanceCached;
 		}
 
 		Collection<GnucashTransactionSplit> after = new LinkedList<GnucashTransactionSplit>();
-		Amount balance = getBalance(LocalDate.now(), after);
+		FixedPointNumber balance = getBalance(LocalDate.now(), after);
 
 		if (after.isEmpty()) {
 			myBalanceCached = balance;
@@ -484,8 +484,8 @@ public class GnucashWritableAccountImpl extends GnucashAccountImpl implements Gn
 	 * @return the sum of all transaction-splits
 	 * affecting this account in the given time-frame.
 	 */
-	public Amount getBalanceChange(final LocalDate from, final LocalDate to) {
-		Amount retval = new Amount();
+	public FixedPointNumber getBalanceChange(final LocalDate from, final LocalDate to) {
+		FixedPointNumber retval = new FixedPointNumber();
 
 		for (Object element : getTransactionSplits()) {
 			GnucashTransactionSplit split = (GnucashTransactionSplit) element;

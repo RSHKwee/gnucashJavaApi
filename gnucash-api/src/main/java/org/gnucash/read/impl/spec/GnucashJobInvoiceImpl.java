@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 import org.gnucash.generated.GncV2.GncBook.GncGncInvoice;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashCustomer;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashGenerInvoice;
@@ -183,27 +183,27 @@ public class GnucashJobInvoiceImpl extends GnucashGenerInvoiceImpl implements Gn
   // -----------------------------------------------------------------
 
   @Override
-  public Amount getAmountUnpaidWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountUnpaidWithTaxes() throws WrongInvoiceTypeException {
     return getJobAmountUnpaidWithTaxes();
   }
 
   @Override
-  public Amount getAmountPaidWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountPaidWithTaxes() throws WrongInvoiceTypeException {
     return getJobAmountPaidWithTaxes();
   }
 
   @Override
-  public Amount getAmountPaidWithoutTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountPaidWithoutTaxes() throws WrongInvoiceTypeException {
     return getJobAmountPaidWithoutTaxes();
   }
 
   @Override
-  public Amount getAmountWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountWithTaxes() throws WrongInvoiceTypeException {
     return getJobAmountWithTaxes();
   }
 
   @Override
-  public Amount getAmountWithoutTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountWithoutTaxes() throws WrongInvoiceTypeException {
     return getJobAmountWithoutTaxes();
   }
 

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.gnucash.generated.GncTransaction;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 
 /**
  * This denotes a single addition or removal of some value from one account in a transaction made up of multiple such
@@ -65,7 +65,7 @@ public interface GnucashTransactionSplit extends Comparable<GnucashTransactionSp
 	 *
 	 * @return the value-transfer this represents
 	 */
-	Amount getValue();
+	FixedPointNumber getValue();
 
 	/**
 	 * The value is in the currency of the transaction!
@@ -100,7 +100,7 @@ public interface GnucashTransactionSplit extends Comparable<GnucashTransactionSp
 	/**
 	 * @return the balance of the account (in the account's currency) up to this split.
 	 */
-	Amount getAccountBalance();
+	FixedPointNumber getAccountBalance();
 
 	/**
 	 * @return the balance of the account (in the account's currency) up to this split.
@@ -117,7 +117,7 @@ public interface GnucashTransactionSplit extends Comparable<GnucashTransactionSp
 	 *
 	 * @return the number of items added to the account
 	 */
-	Amount getQuantity();
+	FixedPointNumber getQuantity();
 
 	/**
 	 * The quantity is in the currency of the account!

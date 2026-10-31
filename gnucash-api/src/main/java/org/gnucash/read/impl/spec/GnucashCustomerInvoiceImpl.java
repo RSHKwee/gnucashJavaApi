@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 import org.gnucash.generated.GncV2.GncBook.GncGncInvoice;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashCustomer;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashGenerInvoice;
@@ -109,27 +109,27 @@ public class GnucashCustomerInvoiceImpl extends GnucashGenerInvoiceImpl
   // -----------------------------------------------------------------
 
   @Override
-  public Amount getAmountUnpaidWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountUnpaidWithTaxes() throws WrongInvoiceTypeException {
     return getInvcAmountUnpaidWithTaxes();
   }
 
   @Override
-  public Amount getAmountPaidWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountPaidWithTaxes() throws WrongInvoiceTypeException {
     return getInvcAmountPaidWithTaxes();
   }
 
   @Override
-  public Amount getAmountPaidWithoutTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountPaidWithoutTaxes() throws WrongInvoiceTypeException {
     return getInvcAmountPaidWithoutTaxes();
   }
 
   @Override
-  public Amount getAmountWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountWithTaxes() throws WrongInvoiceTypeException {
     return getInvcAmountWithTaxes();
   }
 
   @Override
-  public Amount getAmountWithoutTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getAmountWithoutTaxes() throws WrongInvoiceTypeException {
     return getInvcAmountWithoutTaxes();
   }
 
@@ -173,27 +173,27 @@ public class GnucashCustomerInvoiceImpl extends GnucashGenerInvoiceImpl
   // ------------------------------
 
   @Override
-  public Amount getBillAmountUnpaidWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getBillAmountUnpaidWithTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 
   @Override
-  public Amount getBillAmountPaidWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getBillAmountPaidWithTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 
   @Override
-  public Amount getBillAmountPaidWithoutTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getBillAmountPaidWithoutTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 
   @Override
-  public Amount getBillAmountWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getBillAmountWithTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 
   @Override
-  public Amount getBillAmountWithoutTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getBillAmountWithoutTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 
@@ -225,27 +225,27 @@ public class GnucashCustomerInvoiceImpl extends GnucashGenerInvoiceImpl
   // ------------------------------
 
   @Override
-  public Amount getJobAmountUnpaidWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getJobAmountUnpaidWithTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 
   @Override
-  public Amount getJobAmountPaidWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getJobAmountPaidWithTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 
   @Override
-  public Amount getJobAmountPaidWithoutTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getJobAmountPaidWithoutTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 
   @Override
-  public Amount getJobAmountWithTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getJobAmountWithTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 
   @Override
-  public Amount getJobAmountWithoutTaxes() throws WrongInvoiceTypeException {
+  public FixedPointNumber getJobAmountWithoutTaxes() throws WrongInvoiceTypeException {
     throw new WrongInvoiceTypeException();
   }
 

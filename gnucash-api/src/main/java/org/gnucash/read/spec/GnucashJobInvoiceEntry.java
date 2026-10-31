@@ -1,6 +1,6 @@
 package org.gnucash.read.spec;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashGenerInvoiceEntry;
 
 public interface GnucashJobInvoiceEntry extends GnucashGenerInvoiceEntry {
@@ -10,7 +10,7 @@ public interface GnucashJobInvoiceEntry extends GnucashGenerInvoiceEntry {
 
 	// -----------------------------------------------------------------
 
-	Amount getPrice() throws WrongInvoiceTypeException;
+	FixedPointNumber getPrice() throws WrongInvoiceTypeException;
 
 	String getPriceFormatted() throws WrongInvoiceTypeException;
 

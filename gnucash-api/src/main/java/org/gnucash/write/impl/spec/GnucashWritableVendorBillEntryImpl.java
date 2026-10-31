@@ -1,7 +1,7 @@
 package org.gnucash.write.impl.spec;
 
 import org.gnucash.generated.GncV2;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashGenerInvoice;
 import org.gnucash.read.GnucashGenerInvoiceEntry;
@@ -70,8 +70,8 @@ public class GnucashWritableVendorBillEntryImpl extends GnucashWritableGenerInvo
 	public GnucashWritableVendorBillEntryImpl(
 			final GnucashWritableVendorBillImpl bll,
 			final GnucashAccount account,
-			final Amount quantity,
-			final Amount price) throws WrongInvoiceTypeException, TaxTableNotFoundException {
+			final FixedPointNumber quantity,
+			final FixedPointNumber price) throws WrongInvoiceTypeException, TaxTableNotFoundException {
 		super(bll,
 				createVendBillEntry_int(bll, account, quantity, price));
 
@@ -124,7 +124,7 @@ public class GnucashWritableVendorBillEntryImpl extends GnucashWritableGenerInvo
 	}
 
 	@Override
-	public void setPrice(Amount price) throws WrongInvoiceTypeException, TaxTableNotFoundException {
+	public void setPrice(FixedPointNumber price) throws WrongInvoiceTypeException, TaxTableNotFoundException {
 		setBillPrice(price);
 	}
 

@@ -1,6 +1,6 @@
 package org.gnucash.read.auxiliary;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 
 public interface GCshBillTermsProximo {
 
@@ -8,6 +8,6 @@ public interface GCshBillTermsProximo {
 
 	Integer getDiscountDay();
 
-	Amount getDiscount();
+	FixedPointNumber getDiscount();
 
 }

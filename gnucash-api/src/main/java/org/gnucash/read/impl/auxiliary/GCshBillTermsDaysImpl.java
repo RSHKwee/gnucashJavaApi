@@ -1,7 +1,7 @@
 package org.gnucash.read.impl.auxiliary;
 
 import org.gnucash.generated.GncV2;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.auxiliary.GCshBillTermsDays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,11 +40,11 @@ public class GCshBillTermsDaysImpl implements GCshBillTermsDays {
 	}
 
 	@Override
-	public Amount getDiscount() {
+	public FixedPointNumber getDiscount() {
 		if (jwsdpPeer.getBtDaysDiscount() == null) {
 			return null;
 		}
-		return new Amount(jwsdpPeer.getBtDaysDiscount());
+		return new FixedPointNumber(jwsdpPeer.getBtDaysDiscount());
 	}
 
 	// ---------------------------------------------------------------

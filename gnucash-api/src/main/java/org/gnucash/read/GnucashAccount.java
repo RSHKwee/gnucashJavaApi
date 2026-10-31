@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 
 /**
  * An account is a collection of transactions that start or end there. <br>
@@ -166,7 +166,7 @@ public interface GnucashAccount extends Comparable<GnucashAccount> {
 	 *
 	 * @return the balance
 	 */
-	Amount getBalance();
+	FixedPointNumber getBalance();
 
 	/**
 	 * same as getBalanceRecursive(new Date()).<br/>
@@ -175,7 +175,7 @@ public interface GnucashAccount extends Comparable<GnucashAccount> {
 	 *
 	 * @return the balance including sub-accounts
 	 */
-	Amount getBalanceRecursive();
+	FixedPointNumber getBalanceRecursive();
 
 	/**
 	 * @return true if ${@link #hasTransactions()} is true for this or any
@@ -196,7 +196,7 @@ public interface GnucashAccount extends Comparable<GnucashAccount> {
 	 * @return Gets the balance including all sub-accounts.
 	 * @see GnucashAccount#getBalanceRecursive(LocalDate)
 	 */
-	Amount getBalanceRecursive(final LocalDate date, final Currency currency);
+	FixedPointNumber getBalanceRecursive(final LocalDate date, final Currency currency);
 
 	/**
 	 * same as getBalanceRecursive(new Date()). ignores transactions after the
@@ -230,7 +230,7 @@ public interface GnucashAccount extends Comparable<GnucashAccount> {
 	 *             calculation
 	 * @return the balance formatted using the current locale
 	 */
-	Amount getBalance(LocalDate date);
+	FixedPointNumber getBalance(LocalDate date);
 
 	/**
 	 * Be aware that the result is in the currency of this account!
@@ -240,7 +240,7 @@ public interface GnucashAccount extends Comparable<GnucashAccount> {
 	 * @param after splits that are after date are added here.
 	 * @return the balance formatted using the current locale
 	 */
-	Amount getBalance(final LocalDate date, final Collection<GnucashTransactionSplit> after);
+	FixedPointNumber getBalance(final LocalDate date, final Collection<GnucashTransactionSplit> after);
 
 	/**
 	 * Gets the balance including all sub-accounts.
@@ -249,7 +249,7 @@ public interface GnucashAccount extends Comparable<GnucashAccount> {
 	 *             calculation
 	 * @return the balance including all sub-accounts
 	 */
-	Amount getBalanceRecursive(LocalDate date);
+	FixedPointNumber getBalanceRecursive(LocalDate date);
 
 	/**
 	 * Gets the last transaction-split before the given date.
@@ -272,7 +272,7 @@ public interface GnucashAccount extends Comparable<GnucashAccount> {
 	 * @param lastIncludesSplit last split to be included
 	 * @return the balance up to and including the given split
 	 */
-	Amount getBalance(GnucashTransactionSplit lastIncludesSplit);
+	FixedPointNumber getBalance(GnucashTransactionSplit lastIncludesSplit);
 
 	/**
 	 * @param id the split-id to look for
@@ -295,7 +295,7 @@ public interface GnucashAccount extends Comparable<GnucashAccount> {
 	 * @return Gets the balance including all sub-accounts.
 	 * @see GnucashAccount#getBalanceRecursive(Date, Currency)
 	 */
-	Amount getBalanceRecursive(LocalDate date, String currencyNameSpace, String currencyName);
+	FixedPointNumber getBalanceRecursive(LocalDate date, String currencyNameSpace, String currencyName);
 
 	/**
 	 * Examples: The user-defined-attribute "hidden"="true"/"false" was introduced

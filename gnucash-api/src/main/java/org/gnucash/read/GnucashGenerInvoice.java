@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import org.gnucash.generated.GncV2.GncBook.GncGncInvoice;
 import org.gnucash.generated.GncV2.GncBook.GncGncInvoice.InvoiceOwner;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.auxiliary.GCshOwner;
 import org.gnucash.read.impl.auxiliary.GCshTaxedSumImpl;
 import org.gnucash.read.spec.WrongInvoiceTypeException;
@@ -135,31 +135,31 @@ public interface GnucashGenerInvoice extends Comparable<GnucashGenerInvoice> {
    * @return what the customer must still pay (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getInvcAmountUnpaidWithTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getInvcAmountUnpaidWithTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer has already pay (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getInvcAmountPaidWithTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getInvcAmountPaidWithTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer has already pay (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getInvcAmountPaidWithoutTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getInvcAmountPaidWithoutTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer needs to pay in total (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getInvcAmountWithTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getInvcAmountWithTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer needs to pay in total (excl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getInvcAmountWithoutTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getInvcAmountWithoutTaxes() throws WrongInvoiceTypeException;
 
   // ----------------------------
 
@@ -203,31 +203,31 @@ public interface GnucashGenerInvoice extends Comparable<GnucashGenerInvoice> {
    * @return what the customer must still pay (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getBillAmountUnpaidWithTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getBillAmountUnpaidWithTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer has already pay (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getBillAmountPaidWithTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getBillAmountPaidWithTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer has already pay (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getBillAmountPaidWithoutTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getBillAmountPaidWithoutTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer needs to pay in total (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getBillAmountWithTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getBillAmountWithTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer needs to pay in total (excl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getBillAmountWithoutTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getBillAmountWithoutTaxes() throws WrongInvoiceTypeException;
 
   // ----------------------------
 
@@ -271,31 +271,31 @@ public interface GnucashGenerInvoice extends Comparable<GnucashGenerInvoice> {
    * @return what the customer must still pay (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getJobAmountUnpaidWithTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getJobAmountUnpaidWithTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer has already pay (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getJobAmountPaidWithTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getJobAmountPaidWithTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer has already pay (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getJobAmountPaidWithoutTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getJobAmountPaidWithoutTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer needs to pay in total (incl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getJobAmountWithTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getJobAmountWithTaxes() throws WrongInvoiceTypeException;
 
   /**
    * @return what the customer needs to pay in total (excl. taxes)
    * @throws WrongInvoiceTypeException
    */
-  Amount getJobAmountWithoutTaxes() throws WrongInvoiceTypeException;
+  FixedPointNumber getJobAmountWithoutTaxes() throws WrongInvoiceTypeException;
 
 // ----------------------------
 

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import org.gnucash.generated.GncV2;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashCustomer;
 import org.gnucash.read.GnucashFile;
@@ -146,7 +146,7 @@ public interface GnucashWritableFile extends GnucashFile, GnucashWritableObject 
 	 * @param pCmdtyNameFraction number of decimal-places after the comma
 	 * @param pCmdtyName         common name of the new currency
 	 */
-	public void addCurrency(final String pCmdtySpace, final String pCmdtyId, final Amount conversionFactor,
+	public void addCurrency(final String pCmdtySpace, final String pCmdtyId, final FixedPointNumber conversionFactor,
 			final int pCmdtyNameFraction, final String pCmdtyName);
 
 	/**

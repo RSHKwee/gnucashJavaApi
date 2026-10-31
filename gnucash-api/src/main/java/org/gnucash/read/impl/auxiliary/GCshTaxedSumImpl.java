@@ -1,6 +1,6 @@
 package org.gnucash.read.impl.auxiliary;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 
 /**
  * This Class represents a sum of the taxes of
@@ -17,12 +17,12 @@ public class GCshTaxedSumImpl {
 	 * How much tax it is.
 	 * 16%=0.16
 	 */
-	private Amount myTaxpercent;
+	private FixedPointNumber myTaxpercent;
 
 	/**
 	 * The sum of Paid taxes.
 	 */
-	private Amount taxsum;
+	private FixedPointNumber taxsum;
 
 	// -----------------------------------------------------------
 
@@ -30,17 +30,17 @@ public class GCshTaxedSumImpl {
 	 * @param pTaxpercent how much tax it is
 	 * @param pTaxsum the sum of Paid taxes
 	 */
-	public GCshTaxedSumImpl(final Amount pTaxpercent,
-			final Amount pTaxsum) {
+	public GCshTaxedSumImpl(final FixedPointNumber pTaxpercent,
+			final FixedPointNumber pTaxsum) {
 		super();
 		myTaxpercent = pTaxpercent;
-		taxsum = (Amount) pTaxsum.clone();
+		taxsum = (FixedPointNumber) pTaxsum.clone();
 	}
 
 	/**
 	 * @param taxpercent How much tax it is.
 	 */
-	public GCshTaxedSumImpl(final Amount taxpercent) {
+	public GCshTaxedSumImpl(final FixedPointNumber taxpercent) {
 		super();
 		myTaxpercent = taxpercent;
 	}
@@ -51,7 +51,7 @@ public class GCshTaxedSumImpl {
 	 *
 	 * @return How much tax it is.
 	 */
-	public Amount getTaxpercent() {
+	public FixedPointNumber getTaxpercent() {
 		return myTaxpercent;
 	}
 
@@ -59,7 +59,7 @@ public class GCshTaxedSumImpl {
 	 *
 	 * @param taxpercent How much tax it is.
 	 */
-	public void setTaxpercent(final Amount taxpercent) {
+	public void setTaxpercent(final FixedPointNumber taxpercent) {
 		if (taxpercent.doubleValue() < 0.0) {
 			throw new IllegalArgumentException(
 					"negative value '"
@@ -74,7 +74,7 @@ public class GCshTaxedSumImpl {
 	 *
 	 * @return The sum of Paid taxes.
 	 */
-	public Amount getTaxsum() {
+	public FixedPointNumber getTaxsum() {
 		return taxsum;
 	}
 
@@ -82,7 +82,7 @@ public class GCshTaxedSumImpl {
 	 *
 	 * @param pTaxsum The sum of Paid taxes.
 	 */
-	public void setTaxsum(final Amount pTaxsum) {
+	public void setTaxsum(final FixedPointNumber pTaxsum) {
 		taxsum = pTaxsum;
 	}
 }

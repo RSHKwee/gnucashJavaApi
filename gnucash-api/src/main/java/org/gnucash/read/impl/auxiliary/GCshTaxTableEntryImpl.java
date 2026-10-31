@@ -2,7 +2,7 @@ package org.gnucash.read.impl.auxiliary;
 
 import org.gnucash.Const;
 import org.gnucash.generated.GncV2;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.auxiliary.GCshTaxTableEntry;
@@ -73,8 +73,8 @@ public class GCshTaxTableEntryImpl implements GCshTaxTableEntry {
 	 * @return the amount the tax is
 	 * @link #getType()
 	 */
-	public Amount getAmount() {
-		return new Amount(getJwsdpPeer().getTteAmount());
+	public FixedPointNumber getAmount() {
+		return new FixedPointNumber(getJwsdpPeer().getTteAmount());
 	}
 
 	/**

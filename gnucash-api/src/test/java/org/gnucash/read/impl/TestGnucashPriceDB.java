@@ -10,7 +10,7 @@ import org.gnucash.ConstTest;
 import org.gnucash.generated.GncPricedb;
 import org.gnucash.generated.Price;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -73,7 +73,7 @@ public class TestGnucashPriceDB {
     // DateTimeFormatter formatter = new DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     LocalDate parsedDate = LocalDate.parse(dateString, formatter);
-    Amount pr = pdb.getPrice("SAP", parsedDate);
+    FixedPointNumber pr = pdb.getPrice("SAP", parsedDate);
     System.out.println(dateString + " " + pr.toString());
 
     Assert.assertEquals(pr.toString(), "51200000.000000");
@@ -91,7 +91,7 @@ public class TestGnucashPriceDB {
     // DateTimeFormatter formatter = new DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     LocalDate parsedDate = LocalDate.parse(dateString, formatter);
-    Amount pr = pdb.getPrice("SAP", parsedDate);
+    FixedPointNumber pr = pdb.getPrice("SAP", parsedDate);
     System.out.println(dateString + " " + pr.toString());
 
     Assert.assertEquals(pr.toString(), "51390000.000000");
@@ -109,7 +109,7 @@ public class TestGnucashPriceDB {
     // DateTimeFormatter formatter = new DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     LocalDate parsedDate = LocalDate.parse(dateString, formatter);
-    Amount pr = pdb.getPrice("SAP", parsedDate);
+    FixedPointNumber pr = pdb.getPrice("SAP", parsedDate);
     System.out.println(dateString + " " + pr.toString());
 
     Assert.assertEquals(pr.toString(), "51200000.000000");
@@ -127,7 +127,7 @@ public class TestGnucashPriceDB {
     // DateTimeFormatter formatter = new DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     LocalDate parsedDate = LocalDate.parse(dateString, formatter);
-    Amount pr = pdb.getPrice("SAP", parsedDate);
+    FixedPointNumber pr = pdb.getPrice("SAP", parsedDate);
     System.out.println(dateString + " " + pr.toString());
 
     Assert.assertEquals(pr.toString(), "51080000.000000");
@@ -145,7 +145,7 @@ public class TestGnucashPriceDB {
     // DateTimeFormatter formatter = new DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     LocalDate parsedDate = LocalDate.parse(dateString, formatter);
-    Amount pr = pdb.getPrice("SAP", parsedDate);
+    FixedPointNumber pr = pdb.getPrice("SAP", parsedDate);
     System.out.println(dateString + " " + pr.toString());
 
     Assert.assertEquals(pr.toString(), "145");
@@ -163,7 +163,7 @@ public class TestGnucashPriceDB {
     // DateTimeFormatter formatter = new DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Const.STANDARD_DATE_FORMAT_BOOK);
     LocalDate parsedDate = LocalDate.parse(dateString, formatter);
-    Amount pr = pdb.getPrice("SAP", parsedDate);
+    FixedPointNumber pr = pdb.getPrice("SAP", parsedDate);
     System.out.println(dateString + " " + pr.toString());
 
     Assert.assertEquals(pr.toString(), "125.000000");

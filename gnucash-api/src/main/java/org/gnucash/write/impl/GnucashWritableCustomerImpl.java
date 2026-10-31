@@ -6,7 +6,7 @@ import org.gnucash.Const;
 import org.gnucash.currency.CurrencyNameSpace;
 import org.gnucash.generated.GncV2;
 import org.gnucash.generated.ObjectFactory;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashCustomer;
 import org.gnucash.read.auxiliary.GCshAddress;
 import org.gnucash.read.impl.GnucashCustomerImpl;
@@ -183,8 +183,8 @@ public class GnucashWritableCustomerImpl extends GnucashCustomerImpl implements 
 	/**
 	 * @see GnucashWritableCustomer#setDiscount(java.lang.String)
 	 */
-	public void setDiscount(final Amount discount) {
-		Amount oldDiscount = getDiscount();
+	public void setDiscount(final FixedPointNumber discount) {
+		FixedPointNumber oldDiscount = getDiscount();
 		getJwsdpPeer().setCustDiscount(discount.toGnucashString());
 		getGnucashFile().setModified(true);
 
@@ -197,8 +197,8 @@ public class GnucashWritableCustomerImpl extends GnucashCustomerImpl implements 
 	/**
 	 * @see GnucashWritableCustomer#setDiscount(java.lang.String)
 	 */
-	public void setCredit(final Amount credit) {
-		Amount oldCredit = getDiscount();
+	public void setCredit(final FixedPointNumber credit) {
+		FixedPointNumber oldCredit = getDiscount();
 		getJwsdpPeer().setCustCredit(credit.toGnucashString());
 		getGnucashFile().setModified(true);
 

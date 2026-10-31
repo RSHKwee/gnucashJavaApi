@@ -1,6 +1,6 @@
 package org.gnucash.read.auxiliary;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 
 public interface GCshTaxTableEntry {
@@ -24,7 +24,7 @@ public interface GCshTaxTableEntry {
 	 * @return the amount the tax is ("16" for "16%")
 	 * @see {@link #getType()}
 	 */
-	Amount getAmount();
+	FixedPointNumber getAmount();
 
 	/**
 	 * @return Returns the accountID.

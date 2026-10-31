@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * even if they have a different representation (unlike BigInteger). internal
  * format: "2/100" means "0.02"
  */
-public class Amount extends BigDecimalWrapper implements Cloneable {
+public class FixedPointNumber extends BigDecimalWrapper implements Cloneable {
 
 	/**
 	 * Our FixedPointNumber.java.
@@ -21,15 +21,15 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 */
 	@Override
 	public Object clone() {
-		Amount fp2 = new Amount(getBigDecimal());
+		FixedPointNumber fp2 = new FixedPointNumber(getBigDecimal());
 		return fp2;
 	}
 
 	/**
 	 * @see java.lang.Object#clone()
 	 */
-	public Amount copy() {
-		Amount fp2 = new Amount(getBigDecimal());
+	public FixedPointNumber copy() {
+		FixedPointNumber fp2 = new FixedPointNumber(getBigDecimal());
 		return fp2;
 	}
 
@@ -37,8 +37,8 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @return a new FixedPointNumber that has the value of this one times -1.
 	 */
 	@Override
-	public Amount negate() {
-		return new Amount(value.negate());
+	public FixedPointNumber negate() {
+		return new FixedPointNumber(value.negate());
 	}
 
     /*    public double doubleValue() {
@@ -60,8 +60,8 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 */
 	@Override
 	public boolean equals(final Object o) {
-		if (o instanceof Amount) {
-			Amount n = (Amount) o;
+		if (o instanceof FixedPointNumber) {
+			FixedPointNumber n = (FixedPointNumber) o;
 			return equals(n.getBigDecimal());
 		}
 
@@ -98,16 +98,16 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 		return value.signum() != -1;
 	}
 
-	public static Amount max(final Amount a,
-			final Amount b) {
+	public static FixedPointNumber max(final FixedPointNumber a,
+			final FixedPointNumber b) {
 		if (a.getBigDecimal().compareTo(b.getBigDecimal()) == -1) {
 			return b;
 		}
 		return a;
 	}
 
-	public static Amount min(final Amount a,
-			final Amount b) {
+	public static FixedPointNumber min(final FixedPointNumber a,
+			final FixedPointNumber b) {
 		if (a.getBigDecimal().compareTo(b.getBigDecimal()) == -1) {
 			return a;
 		}
@@ -118,7 +118,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param n the value to subtract from this value
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount subtract(final int n) {
+	public FixedPointNumber subtract(final int n) {
 		value = value.subtract(new BigDecimal(n));
 		return this;
 	}
@@ -127,7 +127,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param n the value to subtract from this value
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount subtract(final Amount n) {
+	public FixedPointNumber subtract(final FixedPointNumber n) {
 		return subtract(n.getBigDecimal());
 	}
 
@@ -135,8 +135,8 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param n the value to subtract from this value
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount subtract(final String n) {
-		return subtract(new Amount(n));
+	public FixedPointNumber subtract(final String n) {
+		return subtract(new FixedPointNumber(n));
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
 	@Override
-	public Amount subtract(final BigDecimal n) {
+	public FixedPointNumber subtract(final BigDecimal n) {
 		value = value.subtract(n);
 		return this;
 	}
@@ -153,7 +153,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param n the value to add
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount add(final int n) {
+	public FixedPointNumber add(final int n) {
 		value = value.add(new BigDecimal(n));
 		return this;
 	}
@@ -162,7 +162,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param n the value to add
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount add(final Amount n) {
+	public FixedPointNumber add(final FixedPointNumber n) {
 		return add(n.getBigDecimal());
 	}
 
@@ -170,8 +170,8 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param n the value to add
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount add(final String n) {
-		return add(new Amount(n));
+	public FixedPointNumber add(final String n) {
+		return add(new FixedPointNumber(n));
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
 	@Override
-	public Amount add(final BigDecimal n) {
+	public FixedPointNumber add(final BigDecimal n) {
 		value = value.add(n);
 		return this;
 	}
@@ -197,7 +197,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 *          contain the new value)
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount multiply(final Amount n) {
+	public FixedPointNumber multiply(final FixedPointNumber n) {
 		return multiply(n.getBigDecimal());
 	}
 
@@ -207,7 +207,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
 	@Override
-	public Amount multiply(final BigDecimal n) {
+	public FixedPointNumber multiply(final BigDecimal n) {
 		value = value.multiply(n);
 		return this;
 	}
@@ -217,7 +217,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 *          contain the new value)
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount multiply(final int n) {
+	public FixedPointNumber multiply(final int n) {
 		value = value.multiply(new BigDecimal(n));
 		return this;
 	}
@@ -226,7 +226,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param n the value to divide by
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount divideBy(final Amount n) {
+	public FixedPointNumber divideBy(final FixedPointNumber n) {
 		return divideBy(n.getBigDecimal());
 	}
 
@@ -234,7 +234,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param n the value to divide by
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount divideBy(final BigDecimal n) {
+	public FixedPointNumber divideBy(final BigDecimal n) {
 		BigDecimal n2 = n;
 
 		value = value.setScale(value.scale() + n.precision()); // make sure we
@@ -254,7 +254,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param n the value to divide by
 	 * @return this (we are mutable) for easy operation-chaining
 	 */
-	public Amount divideBy(final int n) {
+	public FixedPointNumber divideBy(final int n) {
 		value = value.divide(new BigDecimal(n), BigDecimal.ROUND_HALF_UP);
 		return this;
 	}
@@ -262,14 +262,14 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	/**
 	 * same as new FixedPointNumber(0).
 	 */
-	public Amount() {
+	public FixedPointNumber() {
 		value = new BigDecimal("0");
 	}
 
 	/**
 	 * @param i the new value
 	 */
-	public Amount(final int i) {
+	public FixedPointNumber(final int i) {
 		value = new BigDecimal("" + i);
 
 	}
@@ -277,7 +277,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	/**
 	 * @param i the new value
 	 */
-	public Amount(final long i) {
+	public FixedPointNumber(final long i) {
 		value = new BigDecimal("" + i);
 
 	}
@@ -289,14 +289,14 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * EXACT computation!
 	 */
 	@Deprecated
-	public Amount(final double d) throws NumberFormatException {
+	public FixedPointNumber(final double d) throws NumberFormatException {
 		value = new BigDecimal(d);
 	}
 
 	/**
 	 * @param bd the value to initialize to
 	 */
-	public Amount(final BigDecimal bd) {
+	public FixedPointNumber(final BigDecimal bd) {
 		if (bd == null) {
 			throw new IllegalArgumentException(
 					"null BigDecimal given to create BigDecimal");
@@ -311,7 +311,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param gnucashString the String to parse
 	 * @throws NumberFormatException if it cannot be parsed at all
 	 */
-	public Amount(String gnucashString) throws NumberFormatException {
+	public FixedPointNumber(String gnucashString) throws NumberFormatException {
 
 		int dividerIndex = gnucashString.indexOf('/');
 		if (dividerIndex == -1) {
@@ -472,7 +472,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param other the value to compare to
 	 * @return true if and only if this>other
 	 */
-	public boolean isGreaterThan(final Amount other) {
+	public boolean isGreaterThan(final FixedPointNumber other) {
 		return isGreaterThan(other.getBigDecimal());
 	}
 
@@ -480,7 +480,7 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param other the value to compare to
 	 * @return as ifGreaterThan, but with given tolerance allowed
 	 */
-	public boolean isGreaterThan(final Amount other, double tolerance) {
+	public boolean isGreaterThan(final FixedPointNumber other, double tolerance) {
 		return isGreaterThan(other.getBigDecimal(), tolerance);
 	}
 
@@ -518,11 +518,11 @@ public class Amount extends BigDecimalWrapper implements Cloneable {
 	 * @param other the value to compare to
 	 * @return true if and only if this&lt;other
 	 */
-	public boolean isLessThan(final Amount other) {
+	public boolean isLessThan(final FixedPointNumber other) {
 		return isLessThan(other.getBigDecimal());
 	}
 
-	public boolean isLessThan(final Amount other, double tolerance) {
+	public boolean isLessThan(final FixedPointNumber other, double tolerance) {
 		return isLessThan(other.getBigDecimal(), tolerance);
 	}
 

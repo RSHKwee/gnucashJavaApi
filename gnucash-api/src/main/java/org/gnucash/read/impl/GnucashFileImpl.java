@@ -38,7 +38,7 @@ import org.gnucash.generated.GncV2;
 import org.gnucash.generated.ObjectFactory;
 import org.gnucash.generated.Price;
 import org.gnucash.messages.ApplicationMessages;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashBudget;
 import org.gnucash.read.GnucashCustomer;
@@ -995,7 +995,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @see {@link GnucashFile#getLatestPrice(String, String)}
    */
   @Override
-  public Amount getLatestPrice(final String pCmdtySpace, final String pCmdtyId) {
+  public FixedPointNumber getLatestPrice(final String pCmdtySpace, final String pCmdtyId) {
     return getLatestPrice(pCmdtySpace, pCmdtyId, 0);
   }
 
@@ -1416,7 +1416,7 @@ public class GnucashFileImpl implements GnucashFile {
         LOGGER.warn(bundle.getMessage("Warn_WrgVersPriceDb", priceDB.getVersion()));
       } else {
         getCurrencyTable().clear();
-        getCurrencyTable().setConversionFactor("ISO4217", getDefaultCurrencyID(), new Amount(1));
+        getCurrencyTable().setConversionFactor("ISO4217", getDefaultCurrencyID(), new FixedPointNumber(1));
 
         for (Iterator<Price> iter = priceDB.getPrice().iterator(); iter.hasNext();) {
           Price price = iter.next();
@@ -1436,7 +1436,7 @@ public class GnucashFileImpl implements GnucashFile {
 
           // get the latest price in the file and insert it into
           // our currency table
-          Amount factor = getLatestPrice(comodity.getCmdtySpace(), comodity.getCmdtyId());
+          FixedPointNumber factor = getLatestPrice(comodity.getCmdtySpace(), comodity.getCmdtyId());
 
           if (factor != null) {
             getCurrencyTable().setConversionFactor(comodity.getCmdtySpace(), comodity.getCmdtyId(), factor);
@@ -1478,7 +1478,7 @@ public class GnucashFileImpl implements GnucashFile {
    * @see {@link GnucashFile#getLatestPrice(String, String)}
    * @see #getDefaultCurrencyID()
    */
-  private Amount getLatestPrice(final String pCmdtySpace, final String pCmdtyId, final int depth) {
+  private FixedPointNumber getLatestPrice(final String pCmdtySpace, final String pCmdtyId, final int depth) {
     if (pCmdtySpace == null) {
       throw new IllegalArgumentException("null parameter 'pCmdtySpace' " + "given");
     }
@@ -1487,8 +1487,8 @@ public class GnucashFileImpl implements GnucashFile {
     }
 
     Date latestDate = null;
-    Amount latestQuote = null;
-    Amount factor = new Amount(1); // factor is used if the quote is not to our base-currency
+    FixedPointNumber latestQuote = null;
+    FixedPointNumber factor = new FixedPointNumber(1); // factor is used if the quote is not to our base-currency
     final int maxRecursionDepth = 5;
 
     for (Object bookElement : getRootElement().getGncBook().getBookElements()) {
@@ -1568,7 +1568,7 @@ public class GnucashFileImpl implements GnucashFile {
 
           if (latestDate == null || latestDate.before(date)) {
             latestDate = date;
-            latestQuote = new Amount(priceQuote.getPriceValue());
+            latestQuote = new FixedPointNumber(priceQuote.getPriceValue());
             LOGGER.debug("getLatestPrice(pCmdtySpace='" + pCmdtySpace + "', String pCmdtyId='" + pCmdtyId
                 + "') converted " + latestQuote + " <= " + priceQuote.getPriceValue());
           }
@@ -1597,7 +1597,7 @@ public class GnucashFileImpl implements GnucashFile {
     }
 
     if (factor == null) {
-      factor = new Amount(1);
+      factor = new FixedPointNumber(1);
     }
 
     return factor.multiply(latestQuote);

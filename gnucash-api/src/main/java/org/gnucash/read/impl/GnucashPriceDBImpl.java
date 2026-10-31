@@ -15,7 +15,7 @@ import java.util.List;
 import org.gnucash.Const;
 import org.gnucash.generated.GncPricedb;
 import org.gnucash.generated.Price;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashFile;
 import org.gnucash.read.GnucashPriceDB;
 import org.slf4j.Logger;
@@ -92,7 +92,7 @@ public class GnucashPriceDBImpl implements GnucashPriceDB {
 	}
 
 	@Override
-	public Amount getPrice(String a_Commodity, LocalDate a_CurDate) {
+	public FixedPointNumber getPrice(String a_Commodity, LocalDate a_CurDate) {
 		if (b_PriceDBPresent) {
 			return getPrice("", a_Commodity, a_CurDate, 0);
 		}
@@ -100,10 +100,10 @@ public class GnucashPriceDBImpl implements GnucashPriceDB {
 	}
 
 	@Override
-	public Amount getPrice(String a_CommoditieSpace, String a_Commodity, LocalDate a_CurDate, int depth) {
+	public FixedPointNumber getPrice(String a_CommoditieSpace, String a_Commodity, LocalDate a_CurDate, int depth) {
 		Date latestDate = null;
-		Amount latestQuote = null;
-		Amount factor = new Amount(1); // factor is used if the quote is not to our base-currency
+		FixedPointNumber latestQuote = null;
+		FixedPointNumber factor = new FixedPointNumber(1); // factor is used if the quote is not to our base-currency
 		final int maxRecursionDepth = 5;
 
 		if (b_PriceDBPresent) {
@@ -184,7 +184,7 @@ public class GnucashPriceDBImpl implements GnucashPriceDB {
 					if (date.before(l_CurDate)) {
 						if (latestDate == null || latestDate.before(date)) {
 							latestDate = date;
-							latestQuote = new Amount(priceQuote.getPriceValue());
+							latestQuote = new FixedPointNumber(priceQuote.getPriceValue());
 							LOGGER.debug("getLatestPrice(pCmdtySpace='" + a_CommoditieSpace + "', String pCmdtyId='" + a_Commodity
 									+ "') converted " + latestQuote + " <= " + priceQuote.getPriceValue());
 						}
@@ -218,11 +218,11 @@ public class GnucashPriceDBImpl implements GnucashPriceDB {
 				+ a_Commodity + "')= " + latestQuote + " from " + latestDate);
 
 		if (latestQuote == null) {
-			return new Amount(1);
+			return new FixedPointNumber(1);
 		}
 
 		if (factor == null) {
-			factor = new Amount(1);
+			factor = new FixedPointNumber(1);
 		}
 
 		return factor.multiply(latestQuote);

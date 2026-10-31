@@ -3,7 +3,7 @@ package org.gnucash.read;
 import java.time.ZonedDateTime;
 
 import org.gnucash.generated.GncV2;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.auxiliary.GCshTaxTable;
 import org.gnucash.read.impl.TaxTableNotFoundException;
 import org.gnucash.read.spec.WrongInvoiceTypeException;
@@ -42,19 +42,19 @@ public interface GnucashGenerInvoiceEntry extends Comparable<GnucashGenerInvoice
 	 * @return For a customer invoice, return the price of one single of the ${@link #getQuantity()} items of type
 	 * ${@link #getAction()}.
 	 */
-	Amount getInvcPrice() throws WrongInvoiceTypeException;
+	FixedPointNumber getInvcPrice() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return For a vendor bill, return the price of one single of the ${@link #getQuantity()} items of type
 	 * ${@link #getAction()}.
 	 */
-	Amount getBillPrice() throws WrongInvoiceTypeException;
+	FixedPointNumber getBillPrice() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return For a job invoice, return the price of one single of the ${@link #getQuantity()} items of type
 	 * ${@link #getAction()}.
 	 */
-	Amount getJobPrice() throws WrongInvoiceTypeException;
+	FixedPointNumber getJobPrice() throws WrongInvoiceTypeException;
 
 	// ----------------------------
 
@@ -85,7 +85,7 @@ public interface GnucashGenerInvoiceEntry extends Comparable<GnucashGenerInvoice
 	/**
 	 * @return the number of items of price ${@link #getInvcPrice()} and type ${@link #getAction()}.
 	 */
-	Amount getQuantity();
+	FixedPointNumber getQuantity();
 
 	/**
 	 * @return the number of items of price ${@link #getInvcPrice()} and type ${@link #getAction()}.
@@ -134,17 +134,17 @@ public interface GnucashGenerInvoiceEntry extends Comparable<GnucashGenerInvoice
 	/**
 	 * @return e.g. "0.16" for "16%"
 	 */
-	Amount getInvcApplicableTaxPercent() throws WrongInvoiceTypeException;
+	FixedPointNumber getInvcApplicableTaxPercent() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return e.g. "0.16" for "16%"
 	 */
-	Amount getBillApplicableTaxPercent() throws WrongInvoiceTypeException;
+	FixedPointNumber getBillApplicableTaxPercent() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return e.g. "0.16" for "16%"
 	 */
-	Amount getJobApplicableTaxPercent() throws WrongInvoiceTypeException;
+	FixedPointNumber getJobApplicableTaxPercent() throws WrongInvoiceTypeException;
 
 	// ------------------------------
 
@@ -172,17 +172,17 @@ public interface GnucashGenerInvoiceEntry extends Comparable<GnucashGenerInvoice
 	 * @see #getInvcSumExclTaxes()
 	 * @see #getInvcSumInclTaxes()
 	 */
-	Amount getInvcSum() throws WrongInvoiceTypeException;
+	FixedPointNumber getInvcSum() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return count*single-unit-price including taxes.
 	 */
-	Amount getInvcSumInclTaxes() throws WrongInvoiceTypeException;
+	FixedPointNumber getInvcSumInclTaxes() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return count*single-unit-price excluding taxes.
 	 */
-	Amount getInvcSumExclTaxes() throws WrongInvoiceTypeException;
+	FixedPointNumber getInvcSumExclTaxes() throws WrongInvoiceTypeException;
 
 	// ----------------------------
 
@@ -218,17 +218,17 @@ public interface GnucashGenerInvoiceEntry extends Comparable<GnucashGenerInvoice
 	 * @see #getInvcSumExclTaxes()
 	 * @see #getInvcSumInclTaxes()
 	 */
-	Amount getBillSum() throws WrongInvoiceTypeException;
+	FixedPointNumber getBillSum() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return count*single-unit-price including taxes.
 	 */
-	Amount getBillSumInclTaxes() throws WrongInvoiceTypeException;
+	FixedPointNumber getBillSumInclTaxes() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return count*single-unit-price excluding taxes.
 	 */
-	Amount getBillSumExclTaxes() throws WrongInvoiceTypeException;
+	FixedPointNumber getBillSumExclTaxes() throws WrongInvoiceTypeException;
 
 	// ----------------------------
 
@@ -239,17 +239,17 @@ public interface GnucashGenerInvoiceEntry extends Comparable<GnucashGenerInvoice
 	 * @see #getInvcSumExclTaxes()
 	 * @see #getInvcSumInclTaxes()
 	 */
-	Amount getJobSum() throws WrongInvoiceTypeException;
+	FixedPointNumber getJobSum() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return count*single-unit-price including taxes.
 	 */
-	Amount getJobSumInclTaxes() throws WrongInvoiceTypeException;
+	FixedPointNumber getJobSumInclTaxes() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return count*single-unit-price excluding taxes.
 	 */
-	Amount getJobSumExclTaxes() throws WrongInvoiceTypeException;
+	FixedPointNumber getJobSumExclTaxes() throws WrongInvoiceTypeException;
 
 	// ---------------------------------------------------------------
 

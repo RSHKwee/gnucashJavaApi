@@ -1,7 +1,7 @@
 package org.gnucash.read.impl.auxiliary;
 
 import org.gnucash.generated.GncV2;
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.auxiliary.GCshBillTermsProximo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,12 +40,12 @@ public class GCshBillTermsProximoImpl implements GCshBillTermsProximo {
 	}
 
 	@Override
-	public Amount getDiscount() {
+	public FixedPointNumber getDiscount() {
 		if (jwsdpPeer.getBtProxDiscount() == null) {
 			return null;
 		}
 
-		return new Amount(jwsdpPeer.getBtProxDiscount());
+		return new FixedPointNumber(jwsdpPeer.getBtProxDiscount());
 	}
 
 	// ---------------------------------------------------------------

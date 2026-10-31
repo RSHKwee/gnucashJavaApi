@@ -3,7 +3,7 @@ package org.gnucash.read;
 import java.util.Collection;
 import java.util.Locale;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.auxiliary.GCshAddress;
 import org.gnucash.read.auxiliary.GCshBillTerms;
 import org.gnucash.read.auxiliary.GCshTaxTable;
@@ -98,17 +98,17 @@ public interface GnucashVendor extends GnucashObject {
 	/**
 	 * @return the sum of payments for invoices to this client
 	 */
-	Amount getExpensesGenerated(GnucashGenerInvoice.ReadVariant readVar);
+	FixedPointNumber getExpensesGenerated(GnucashGenerInvoice.ReadVariant readVar);
 
 	/**
 	 * @return the sum of payments for invoices to this client
 	 */
-	Amount getExpensesGenerated_direct();
+	FixedPointNumber getExpensesGenerated_direct();
 
 	/**
 	 * @return the sum of payments for invoices to this client
 	 */
-	Amount getExpensesGenerated_viaAllJobs();
+	FixedPointNumber getExpensesGenerated_viaAllJobs();
 
 	/**
 	 * @see #getExpensesGenerated() Formatted acording to the current locale's
@@ -127,17 +127,17 @@ public interface GnucashVendor extends GnucashObject {
 	/**
 	 * @return the sum of left to pay Unpaid invoiced
 	 */
-	Amount getOutstandingValue(GnucashGenerInvoice.ReadVariant readVar) throws WrongInvoiceTypeException;
+	FixedPointNumber getOutstandingValue(GnucashGenerInvoice.ReadVariant readVar) throws WrongInvoiceTypeException;
 
 	/**
 	 * @return the sum of left to pay Unpaid invoiced
 	 */
-	Amount getOutstandingValue_direct() throws WrongInvoiceTypeException;
+	FixedPointNumber getOutstandingValue_direct() throws WrongInvoiceTypeException;
 
 	/**
 	 * @return the sum of left to pay Unpaid invoiced
 	 */
-	Amount getOutstandingValue_viaAllJobs() throws WrongInvoiceTypeException;
+	FixedPointNumber getOutstandingValue_viaAllJobs() throws WrongInvoiceTypeException;
 
 	/**
 	 * @see #getOutstandingValue() Formatted acording to the current locale's

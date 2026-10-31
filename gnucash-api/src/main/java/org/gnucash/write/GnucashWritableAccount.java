@@ -3,7 +3,7 @@ package org.gnucash.write;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashObject;
 
@@ -58,7 +58,7 @@ public interface GnucashWritableAccount extends GnucashAccount, GnucashObject, G
 	 * @return the sum of all transaction-splits affecting this account in the given
 	 * time-frame.
 	 */
-	Amount getBalanceChange(LocalDate from, LocalDate to);
+	FixedPointNumber getBalanceChange(LocalDate from, LocalDate to);
 
 	/**
 	 * Set the type of the account (income, ...).

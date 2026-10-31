@@ -2,7 +2,7 @@ package org.gnucash.write;
 
 import java.beans.PropertyChangeListener;
 
-import org.gnucash.numbers.Amount;
+import org.gnucash.numbers.FixedPointNumber;
 import org.gnucash.read.GnucashAccount;
 import org.gnucash.read.GnucashTransactionSplit;
 import org.gnucash.read.IllegalTransactionSplitActionException;
@@ -56,7 +56,7 @@ public interface GnucashWritableTransactionSplit extends GnucashTransactionSplit
 
 	/**
 	 * If the currencies of transaction and account match, this also does
-	 * ${@link #setQuantity(Amount)}.
+	 * ${@link #setQuantity(FixedPointNumber)}.
 	 *
 	 * @param n the new quantity (in the currency of the account)
 	 */
@@ -71,15 +71,15 @@ public interface GnucashWritableTransactionSplit extends GnucashTransactionSplit
 
 	/**
 	 * If the currencies of transaction and account match, this also does
-	 * ${@link #setQuantity(Amount)}.
+	 * ${@link #setQuantity(FixedPointNumber)}.
 	 *
 	 * @param n the new quantity (in the currency of the account)
 	 */
-	void setQuantity(Amount n);
+	void setQuantity(FixedPointNumber n);
 
 	/**
 	 * If the currencies of transaction and account match, this also does
-	 * ${@link #setValue(Amount)}.
+	 * ${@link #setValue(FixedPointNumber)}.
 	 *
 	 * @param n the new value (in the currency of the transaction)
 	 */
@@ -94,11 +94,11 @@ public interface GnucashWritableTransactionSplit extends GnucashTransactionSplit
 
 	/**
 	 * If the currencies of transaction and account match, this also does
-	 * ${@link #setValue(Amount)}.
+	 * ${@link #setValue(FixedPointNumber)}.
 	 *
 	 * @param n the new value (in the currency of the transaction)
 	 */
-	void setValue(Amount n);
+	void setValue(FixedPointNumber n);
 
 	/**
 	 * Set the description-text.
